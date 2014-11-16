@@ -105,8 +105,12 @@ public class Engine {
 
 	// AudioIn
 
-	public static int[] audioInPlay(float amp, float add, float pos, int in){
-		return methCla.audioInPlay(amp, add, pos, in);
+	public static int[] audioInStart(float amp, float add, float pos, int in){
+		return methCla.audioInStart(amp, add, pos, in);
+	};
+
+	public static void audioInPlay(int nodeId){
+		methCla.audioInPlay(nodeId);
 	};
 
   	public static void audioInSet(float amp, float add, float pos, int[] nodeId){

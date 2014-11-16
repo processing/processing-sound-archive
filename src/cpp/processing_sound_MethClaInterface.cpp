@@ -465,49 +465,59 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_pulseSet(JNIEnv *e
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
 };
 
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_audioInPlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos, jint in){
-
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_audioInStart(JNIEnv *env , jobject object, jfloat amp, jfloat add, jfloat pos, jint in){
+    
     jintArray nodeId = env->NewIntArray(2);
     jint *m_nodeId = env->GetIntArrayElements(nodeId, NULL);
-
+    
     Methcla::AudioBusId bus = m_engine->audioBusId().alloc();
-
+    
     Methcla::Request request(engine());
     request.openBundle(Methcla::immediately);
     
     auto synth = request.synth(
-        METHCLA_PLUGINS_AUDIOIN_URI, 
-        engine().root(), 
-        {amp, add, pos}
-    );
-
+                               METHCLA_PLUGINS_AUDIOIN_URI,
+                               engine().root(),
+                               {amp, add, pos}
+                               );
+    
     auto pan = request.synth(
-            METHCLA_PLUGINS_PAN2_URI, 
-            engine().root(), 
-            {pos, 1.f},
-            {Methcla::Value(1.f)}
-    );
-
+                             METHCLA_PLUGINS_PAN2_URI,
+                             engine().root(),
+                             {pos, 1.f},
+                             {Methcla::Value(1.f)}
+                             );
+    
     request.mapInput(synth.id(), 0, Methcla::AudioBusId(in), Methcla::kBusMappingExternal);
-    request.mapOutput(synth.id(), 0, bus); 
-    request.mapInput(pan.id(), 0, bus); 
+    request.mapOutput(synth.id(), 0, bus);
+    request.mapInput(pan.id(), 0, bus);
     
-    request.mapOutput(pan.id(), 0, Methcla::AudioBusId(0), Methcla::kBusMappingExternal);
-    request.mapOutput(pan.id(), 1, Methcla::AudioBusId(1), Methcla::kBusMappingExternal);
-    
-
     request.activate(synth.id());
     request.activate(pan.id());
-
+    
     request.closeBundle();
     request.send();
-            
+    
     m_nodeId[0]=synth.id();
     m_nodeId[1]= pan.id();
-
+    
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
-
+    
     return nodeId;
+
+};
+
+JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_audioInPlay(JNIEnv *env, jobject object, jint nodeId){
+
+    Methcla::Request request(engine());
+    request.openBundle(Methcla::immediately);
+    
+    request.mapOutput(nodeId, 0, Methcla::AudioBusId(0), Methcla::kBusMappingExternal);
+    request.mapOutput(nodeId, 1, Methcla::AudioBusId(1), Methcla::kBusMappingExternal);
+    
+    request.closeBundle();
+    request.send();
+
 };
 
 JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_audioInSet(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos, jintArray nodeId){

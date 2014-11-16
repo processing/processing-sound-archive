@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     processing_sound_MethClaInterface
+ * Method:    mixPlay
+ * Signature: ([I[F)[I
+ */
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay
+  (JNIEnv *, jobject, jintArray, jfloatArray);
+
+/*
+ * Class:     processing_sound_MethClaInterface
  * Method:    engineNew
  * Signature: (II)I
  */
@@ -113,11 +121,19 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_pulseSet
 
 /*
  * Class:     processing_sound_MethClaInterface
- * Method:    audioInPlay
+ * Method:    audioInStart
  * Signature: (FFFI)[I
  */
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_audioInPlay
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_audioInStart
   (JNIEnv *, jobject, jfloat, jfloat, jfloat, jint);
+
+/*
+ * Class:     processing_sound_MethClaInterface
+ * Method:    audioInPlay
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_audioInPlay
+  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface

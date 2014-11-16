@@ -20,23 +20,27 @@ public class AudioIn implements SoundObject{
     	m_in = in;
    	}
 	
-	public void play(){
-		m_nodeId = m_engine.audioInPlay(m_amp, m_add, m_pos, m_in);
+   	public void start(){
+		m_nodeId = m_engine.audioInStart(m_amp, m_add, m_pos, m_in);
+	}
+	
+	public void start(float amp, float add, float pos){
+		m_amp=amp; m_add=add; m_pos=pos;
+		this.start();
+	}
+	
+	public void start(float amp, float add){
+		m_amp=amp; m_add=add;
+		this.start();
+	}
+	
+	public void start(float amp){
+		m_amp=amp;
+		this.start();
 	}
 
-	public void play(float amp, float add, float pos){
-		m_amp=amp; m_add=add; m_pos=pos;
-		this.play();
-	}
-	
-	public void play(float amp, float add){
-		m_amp=amp; m_add=add;
-		this.play();
-	}
-	
-	public void play(float amp){
-		m_amp=amp;
-		this.play();
+	public void play(){
+		m_engine.audioInPlay(m_nodeId[1]);
 	}
 	
 	private void set(){

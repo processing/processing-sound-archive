@@ -19,7 +19,7 @@ void setup() {
     input = new AudioIn(this, 0);
     
     // start the Audio Input
-    input.play();
+    input.start();
     
     // create a new Amplitude analyzer
     rms = new Amplitude(this);
@@ -44,3 +44,4 @@ void draw() {
     // We draw an ellispe coupled to the audio analysis
     ellipse(width/2, height/2, 1*scale, 1*scale);
 }
+
