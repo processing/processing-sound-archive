@@ -46,7 +46,7 @@ public class SqrOsc implements SoundObject {
 	
 	private void set(){
 		if(m_nodeId[0] != -1 ) {
-			m_engine.oscSet(m_freq, m_amp, m_add, m_pos, m_nodeId);
+			m_engine.sqrSet(m_freq, m_amp, m_add, m_pos, m_nodeId);
 		}	
 	}
 	
