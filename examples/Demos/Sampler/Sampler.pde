@@ -1,6 +1,6 @@
 /*
 This example shows how to make a simple sampler and sequencer with the Sound library. In this
-sketch 5 different short samples are loaded and played back at different pitches, in this
+sketch 5 different samples are loaded and played back at different pitches, in this
 case 5 different octaves. The sequencer triggers and event every 200-1000 mSecs randomly.
 Each time a sound is played a colored rect with a random color is displayed.
 */
