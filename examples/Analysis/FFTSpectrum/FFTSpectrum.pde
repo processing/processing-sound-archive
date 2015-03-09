@@ -18,25 +18,24 @@ public void setup() {
     size(bands,360);
     background(255);
       
-    //Load and play a soundfile and loop it. This has to be called 
+    // Load and play a soundfile and loop it. This has to be called 
     // before the FFT is created.
     sample = new SoundFile(this, "beat.aiff");
     sample.loop();
     
     // Create and patch the rms tracker
-    fft = new FFT(this);
-    fft.input(sample, bands);
+    fft = new FFT(this, bands);
+    fft.input(sample);
 }      
   
 public void draw() {
     background(255);
     
-    fft.analyze(spectrum);
+    fft.analyze();
     
-    for(int i = 0; i < bands; i++)
-    {
+    for(int i = 0; i < fft.size(); i++) {
       // The result of the FFT is normalized
       // draw the line for frequency band i scaling it up by 5 to get more amplitude.
-      line( i, height, i, height - spectrum[i]*height*5 );
+      line( i, height, i, height - fft.spectrum[i]*height*5 );
     } 
 }
