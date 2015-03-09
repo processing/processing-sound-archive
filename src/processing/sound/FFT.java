@@ -17,8 +17,8 @@ public class FFT {
 		fftSize = fftSize_;
 		spectrum = new float[fftSize];
 		m_engine.setPreferences(theParent, 512, 44100);
-    m_engine.start();
-  }
+    		m_engine.start();
+  	}
 	
 	public void input(SoundObject input){
 		ptr = m_engine.fft(input.returnId(), fftSize);
@@ -28,7 +28,7 @@ public class FFT {
 		float[] m_value = m_engine.poll_fft(ptr);
 		int num_samples = Math.min(value.length, m_value.length);
 		for(int i=0; i<num_samples; i++){
-				value[i] = m_value[i];
+			value[i] = m_value[i];
 		}
 	}
 
@@ -40,7 +40,7 @@ public class FFT {
 		float[] m_value = m_engine.poll_fft(ptr);
 		int num_samples = Math.min(spectrum.length, m_value.length);
 		for(int i=0; i<num_samples; i++){
-				spectrum[i] = m_value[i];
+			spectrum[i] = m_value[i];
 		}
 	}
 	/*
