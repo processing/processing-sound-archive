@@ -10,9 +10,7 @@ import processing.sound.*;
 SoundFile sample;
 FFT fft;
 
-int scale=1;
 int bands=512;
-float[] spectrum = new float[bands];
 
 public void setup() {
     size(bands,360);
