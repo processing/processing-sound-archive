@@ -1,5 +1,5 @@
 package processing.sound;
-import processing.core.*;
+import processing.core.PApplet;
 import java.io.File;
 
 public class SoundFile implements SoundObject {
