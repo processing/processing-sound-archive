@@ -21,7 +21,7 @@
 */
 
 package processing.sound;
-import processing.core.*;
+import processing.core.PApplet;
 
 public class FFT {
 	
