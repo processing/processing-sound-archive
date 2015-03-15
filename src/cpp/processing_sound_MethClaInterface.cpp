@@ -103,6 +103,9 @@ JNIEXPORT jint JNICALL Java_processing_sound_MethClaInterface_engineNew (JNIEnv 
     return 1;
 };
 
+//JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay(JNIEnv *env, jobject object, jintArray value, jfloatArray value2){
+//};
+
 JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_engineStart(JNIEnv *env, jobject object){
     engine().start();
 };

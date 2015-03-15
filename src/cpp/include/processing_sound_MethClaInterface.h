@@ -12,8 +12,8 @@ extern "C" {
  * Method:    mixPlay
  * Signature: ([I[F)[I
  */
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay
-  (JNIEnv *, jobject, jintArray, jfloatArray);
+//JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay
+//  (JNIEnv *, jobject, jintArray, jfloatArray);
 
 /*
  * Class:     processing_sound_MethClaInterface
