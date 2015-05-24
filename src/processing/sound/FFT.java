@@ -27,15 +27,16 @@ public class FFT {
 	
 	PApplet parent;
 	private Engine m_engine;
-	private int m_fftSize;
+	public int m_fftSize;
 	private long ptr;
 
 	public float[] spectrum;
 	
-	public FFT(PApplet theParent, int m_fftSize) {
+	public FFT(PApplet theParent, int fftSize) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
-		spectrum = new float[m_fftSize];
+		spectrum = new float[fftSize];
+		m_fftSize = fftSize;
 		m_engine.setPreferences(theParent, 512, 44100);
     	m_engine.start();
   	}
@@ -75,7 +76,7 @@ public class FFT {
 	}
 	*/
 	public void dispose() {
-		m_engine.destroy_fft(ptr);
 		//m_engine.synthStop(m_nodeId);
+		m_engine.destroy_fft(ptr);
 	}
 }
