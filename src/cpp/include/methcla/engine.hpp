@@ -258,7 +258,7 @@ namespace Methcla
                     return Id(m_offset + i);
                 }
             }
-            throw std::runtime_error("No free ids");
+            throw std::runtime_error("engine.hpp No free ids");
         }
 
         void free(Id id)
@@ -468,7 +468,7 @@ namespace Methcla
 
         size_t realtimeMemorySize = 1024*1024;
         size_t maxNumNodes = 1024;
-        size_t maxNumAudioBuses = 1024;
+        size_t maxNumAudioBuses = 128;
         size_t maxNumControlBuses = 4096;
         size_t sampleRate = 44100;
         size_t blockSize = 64;
@@ -951,6 +951,7 @@ namespace Methcla
                     if (nodeId == otherNodeId)
                     {
                         nodeIdAllocator().free(nodeId);
+                        std::cout << nodeIdAllocator().getStatistics().allocated() << std::endl;
                         return true;
                     }
                 }

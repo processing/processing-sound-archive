@@ -15,6 +15,7 @@
 #ifndef METHCLA_FILE_HPP_INCLUDED
 #define METHCLA_FILE_HPP_INCLUDED
 
+#include <methcla/common.h>
 #include <methcla/detail.hpp>
 #include <methcla/engine.hpp>
 #include <methcla/file.h>
@@ -50,9 +51,9 @@ namespace Methcla
             return channels * frames;
         }
 
-        template <typename T> T duration() const
+        double duration() const
         {
-            return (T)frames/(T)samplerate;
+            return (double)frames/(double)samplerate;
         }
     };
 

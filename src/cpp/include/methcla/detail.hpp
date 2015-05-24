@@ -19,8 +19,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <methcla/engine.h>
-
 namespace Methcla
 {
     namespace detail

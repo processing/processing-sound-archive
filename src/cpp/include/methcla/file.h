@@ -74,6 +74,7 @@ typedef struct Methcla_SoundFileAPI Methcla_SoundFileAPI;
 struct Methcla_SoundFileAPI
 {
     void* handle;
+    const char* valid_file_extensions;
     Methcla_Error (*open)(const Methcla_SoundFileAPI* api, const char* path, Methcla_FileMode mode, Methcla_SoundFile** file, Methcla_SoundFileInfo* info);
 };
 

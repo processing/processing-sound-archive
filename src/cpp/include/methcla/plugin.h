@@ -63,8 +63,9 @@ struct Methcla_World
 
     // Realtime memory allocation
     void* (*alloc)(const struct Methcla_World* world, size_t size);
-    void* (*alloc_aligned)(const struct Methcla_World* world, size_t alignment, size_t size);
     void (*free)(const struct Methcla_World* world, void* ptr);
+    void* (*alloc_aligned)(const struct Methcla_World* world, size_t alignment, size_t size);
+    void (*free_aligned)(const struct Methcla_World* world, void* ptr);
 
     //* Schedule a command for execution in the non-realtime context.
     void (*perform_command)(const Methcla_World* world, Methcla_HostPerformFunction perform, void* data);
@@ -101,16 +102,22 @@ static inline void* methcla_world_alloc(const Methcla_World* world, size_t size)
     return world->alloc(world, size);
 }
 
+static inline void methcla_world_free(const Methcla_World* world, void* ptr)
+{
+    assert(world && world->free);
+    world->free(world, ptr);
+}
+
 static inline void* methcla_world_alloc_aligned(const Methcla_World* world, size_t alignment, size_t size)
 {
     assert(world && world->alloc_aligned);
     return world->alloc_aligned(world, alignment, size);
 }
 
-static inline void methcla_world_free(const Methcla_World* world, void* ptr)
+static inline void methcla_world_free_aligned(const Methcla_World* world, void* ptr)
 {
-    assert(world && world->free);
-    world->free(world, ptr);
+    assert(world && world->free_aligned);
+    world->free_aligned(world, ptr);
 }
 
 static inline void methcla_world_perform_command(const Methcla_World* world, Methcla_HostPerformFunction perform, void* data)
@@ -216,11 +223,14 @@ struct Methcla_Host
     //* Allocate a block of memory
     void* (*alloc)(const struct Methcla_Host* context, size_t size);
 
+    //* Free a block of memory previously allocated by alloc or alloc_aligned.
+    void (*free)(const struct Methcla_Host* context, void* ptr);
+
     //* Allocate a block of aligned memory.
     void* (*alloc_aligned)(const struct Methcla_Host* context, size_t alignment, size_t size);
 
     //* Free a block of memory previously allocated by alloc or alloc_aligned.
-    void (*free)(const struct Methcla_Host* context, void* ptr);
+    void (*free_aligned)(const struct Methcla_Host* context, void* ptr);
 
     //* Open sound file.
     Methcla_Error (*soundfile_open)(const Methcla_Host* host, const char* path, Methcla_FileMode mode, Methcla_SoundFile** file, Methcla_SoundFileInfo* info);
