@@ -74,8 +74,8 @@ JNIEXPORT jint JNICALL Java_processing_sound_MethClaInterface_engineNew (JNIEnv 
     Methcla::EngineOptions options;
     options.audioDriver.bufferSize = bufferSize;
     options.audioDriver.numInputs = 2;
-    options.realtimeMemorySize = 1024 * 1024 * 20;
-    options.maxNumNodes = 1024 * 20;
+    options.realtimeMemorySize = 1024 * 1024 * 1024;
+    options.maxNumNodes = 1024 * 40;
     options.addLibrary(methcla_plugins_sine)
            .addLibrary(methcla_plugins_saw)
            .addLibrary(methcla_plugins_tri)
@@ -402,7 +402,7 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_sqrSet(JNIEnv *env
     Methcla::Request request(engine());
     request.openBundle(Methcla::immediately);
     request.set(m_nodeId[0], 0 , freq);
-    request.set(m_nodeId[0], 0 , 0.5f);
+    request.set(m_nodeId[0], 1 , 0.5f);
     request.set(m_nodeId[0], 2 , amp);
     request.set(m_nodeId[1], 0 , pos);
     request.closeBundle();
@@ -586,28 +586,39 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
             {Methcla::Value(1.f)}
     );
     
-    auto after = request.synth(
+    auto after_synth = request.synth(
             METHCLA_PLUGINS_DONE_AFTER_URI,
-            engine().root(),
+            Methcla::NodePlacement::after(synth.id()),
+            { },
+            { Methcla::Value(dur) }
+    );
+
+    auto after_pan = request.synth(
+            METHCLA_PLUGINS_DONE_AFTER_URI,
+            Methcla::NodePlacement::after(pan.id()),
             { },
             { Methcla::Value(dur) }
     );
 
     engine().addNotificationHandler(engine().freeNodeIdHandler(synth.id()));
+    engine().addNotificationHandler(engine().freeNodeIdHandler(after_synth.id()));
     engine().addNotificationHandler(engine().freeNodeIdHandler(pan.id()));
-    engine().addNotificationHandler(engine().freeNodeIdHandler(after.id()));
+    engine().addNotificationHandler(engine().freeNodeIdHandler(after_pan.id()));
                                     
     request.mapOutput(synth.id(), 0, bus);
     request.mapInput(pan.id(), 0, bus);
     request.mapOutput(pan.id(), 0, Methcla::AudioBusId(0), Methcla::kBusMappingExternal);
     request.mapOutput(pan.id(), 1, Methcla::AudioBusId(1), Methcla::kBusMappingExternal);
 
-    request.whenDone(after.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
+    request.whenDone(after_pan.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
+    request.whenDone(after_synth.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.activate(synth.id());
+
     request.activate(pan.id());
     if (loop == false)
     {
-        request.activate(after.id());
+        request.activate(after_synth.id());
+        request.activate(after_pan.id());
     }   
     request.closeBundle();
   
@@ -616,8 +627,8 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
     m_nodeId[0]=synth.id();
     m_nodeId[1]=pan.id();
 
-    //results = engine().getNodeTreeStatistics();
-    //std::cout << results.numSynths << std::endl;
+    results = engine().getNodeTreeStatistics();
+    // std::cout << results.numSynths << std::endl;
 
     env->ReleaseStringUTFChars(path, str);  
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
@@ -882,6 +893,9 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_envelopePlay(
     jintArray returnId = env->NewIntArray(2);
     jint *m_returnId = env->GetIntArrayElements(returnId, NULL);
 
+    float dur = attackTime + sustainTime + releaseTime;
+    Methcla::NodeTreeStatistics results;
+
     Methcla::AudioBusId in_bus = m_engine->audioBusId().alloc();
     Methcla::AudioBusId out_bus = m_engine->audioBusId().alloc();
 
@@ -894,6 +908,7 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_envelopePlay(
                 };
     
     Methcla::Request request(engine());
+   
     request.openBundle(Methcla::immediately);
     auto synth = request.synth(
             METHCLA_PLUGINS_ASR_ENVELOPE_URI,
@@ -902,14 +917,31 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_envelopePlay(
             envOptions
     );
 
+    auto after = request.synth(
+            METHCLA_PLUGINS_DONE_AFTER_URI,
+            Methcla::NodePlacement::after(m_nodeId[1]),
+            { },
+            { Methcla::Value(dur) }
+    );
+
+
     request.mapOutput(m_nodeId[0], 0, in_bus);
     request.mapInput(synth.id(), 0, in_bus);
     request.mapOutput(synth.id(), 0, out_bus);
     request.mapInput(m_nodeId[1], 0, out_bus);
 
+    request.whenDone(synth.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
+    request.whenDone(after.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.activate(synth.id());
+    request.activate(after.id());
 
     request.closeBundle();
+    
+    engine().addNotificationHandler(engine().freeNodeIdHandler(synth.id()));
+    engine().addNotificationHandler(engine().freeNodeIdHandler(after.id()));
+    engine().addNotificationHandler(engine().freeNodeIdHandler(m_nodeId[0]));
+    engine().addNotificationHandler(engine().freeNodeIdHandler(m_nodeId[1]));
+
     request.send();
 
     m_returnId[0]=synth.id();
@@ -917,6 +949,9 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_envelopePlay(
 
     env->ReleaseIntArrayElements(returnId, m_returnId, 0);
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
+
+    results = engine().getNodeTreeStatistics();
+    //std::cout << results.numSynths << std::endl;
 
     return returnId;
 };
