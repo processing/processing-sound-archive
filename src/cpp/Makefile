@@ -7,5 +7,7 @@ clean:
 	rm *.jnilib
 
 install:
+	install_name_tool -change @executable_path/libmethcla.dylib  @loader_path/libmethcla.dylib libMethClaInterface.jnilib
 	cp libMethClaInterface.jnilib ../../library/macosx
 	cp libMethClaInterface.jnilib /Users/wirsing/Documents/Processing/libraries/sound/library/macosx/	
+	
