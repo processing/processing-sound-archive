@@ -28,16 +28,18 @@ public class Env {
 	PApplet parent;
 	private Engine m_engine;
 	int[] m_nodeId = {-1, -1};
+	private int[] m_busses;
 		
 	public Env (PApplet theParent) {	
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
     	m_engine.start();
-   	}
+    	m_busses = m_engine.busConstructStereo();
+	}
 	
 	public void play(SoundObject input, float attackTime, float sustainTime, float sustainLevel, float releaseTime){
-		m_nodeId = m_engine.envelopePlay(input.returnId(), attackTime, sustainTime, sustainLevel, releaseTime);
+		m_nodeId = m_engine.envelopePlay(input.returnId(), attackTime, sustainTime, sustainLevel, releaseTime, m_busses);
 	}
 
 	public int[] returnId(){

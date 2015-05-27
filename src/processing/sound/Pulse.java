@@ -33,16 +33,18 @@ public class Pulse implements SoundObject {
 	private float m_amp = 0.5f;
 	private float m_add = 0;
 	private float m_pos = 0;
-	
+	private int m_panBusId;	
+
 	public Pulse(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
     	m_engine.start();
+		m_panBusId = m_engine.busConstructMono();    	
    	}
 	
 	public void play(){
-		m_nodeId = m_engine.pulsePlay(m_freq, m_width, m_amp, m_add, m_pos);
+		m_nodeId = m_engine.pulsePlay(m_freq, m_width, m_amp, m_add, m_pos, m_panBusId);
 	};	
 	
 	public void play(float freq, float width, float amp, float add, float pos){

@@ -32,17 +32,19 @@ public class SqrOsc implements SoundObject {
 	private float m_amp = 0.5f;
 	private float m_add = 0;
 	private float m_pos = 0;
+	private int m_panBusId;
 	
 	public SqrOsc(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
-    	m_engine.start();		
+    	m_engine.start();
+		m_panBusId = m_engine.busConstructMono();
 	}
 	
 	public void play(){
 		//m_nodeId = m_engine.pulsePlay(m_freq, 0.5f, m_amp*2, m_add-1, m_pos);
-		m_nodeId = m_engine.sqrPlay(m_freq, m_amp, m_add-1, m_pos);
+		m_nodeId = m_engine.sqrPlay(m_freq, m_amp, m_add-1, m_pos, m_panBusId);
 	};	
 	
 	public void play(float freq, float amp, float add, float pos){

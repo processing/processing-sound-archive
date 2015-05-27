@@ -65,6 +65,12 @@ public class MethClaInterface
   public native void engineStart();
   
   public native void engineStop();
+
+  // Bus Constructor
+
+  public native int busConstructMono();
+
+  public native int[] busConstructStereo();
   
   // general Synth methods
   
@@ -78,25 +84,25 @@ public class MethClaInterface
   
   // Sine Wave Oscillator
     
-  public native int[] sinePlay(float freq, float amp, float add, float pos);
+  public native int[] sinePlay(float freq, float amp, float add, float pos, int busId);
     
   //Saw Wave Oscillator
   
-  public native int[] sawPlay(float freq, float amp, float add, float pos);
+  public native int[] sawPlay(float freq, float amp, float add, float pos, int busId);
 
   //Square Wave Oscillator
   
-  public native int[] sqrPlay(float freq, float amp, float add, float pos);
+  public native int[] sqrPlay(float freq, float amp, float add, float pos, int busId);
   
   public native void sqrSet(float freq, float amp, float add, float pos, int[] nodeId); 
   
   // Triangle Wave Oscillator
   
-  public native int[] triPlay(float freq, float amp, float add, float pos);
+  public native int[] triPlay(float freq, float amp, float add, float pos, int busId);
   
   // Pulse Wave Oscillator
   
-  public native int[] pulsePlay(float freq, float width, float amp, float add, float pos);
+  public native int[] pulsePlay(float freq, float width, float amp, float add, float pos, int busId);
   
   public native void pulseSet(float freq, float width, float amp, float add, float pos, int[] nodeId); 
   
@@ -111,8 +117,10 @@ public class MethClaInterface
   // SoundFile
   
   public native int[] soundFileInfo(String path);
-    
-  public native int[] soundFilePlayMono(float rate, float pos, float amp, float add, boolean loop, String path, float dur, int cue);
+ 
+  public native int soundFileConstructMono();
+  
+  public native int[] soundFilePlayMono(float rate, float pos, float amp, float add,  boolean loop, String path, float dur, int cue, int busId);
   
   public native int[] soundFilePlayMulti(float rate, float amp, float add, boolean loop, String path, float dur, int cue);
   
@@ -133,14 +141,14 @@ public class MethClaInterface
   public native void pinkNoiseSet(float amp, float add, float pos, int[] nodeId);
 
   // Brown Noise
-    
+  
   public native int[] brownNoisePlay(float amp, float add, float pos);
   
   public native void brownNoiseSet(float amp, float add, float pos, int[] nodeId);
 
   // Envelope
     
-  public native int[] envelopePlay(int[] input, float attackTime, float sustainTime, float sustainLevel, float releaseTime);
+  public native int[] envelopePlay(int[] input, float attackTime, float sustainTime, float sustainLevel, float releaseTime, int[] busIds);
   
   public native int doneAfter(float seconds);
     

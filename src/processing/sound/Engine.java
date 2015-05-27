@@ -50,6 +50,16 @@ public class Engine {
     	m_bufferSize = bufferSize;
     	m_sampleRate = sampleRate;
     }
+
+    // bus constructors
+	public static int busConstructMono(){
+		return methCla.busConstructMono();
+	}	  
+	
+	public static int[] busConstructStereo(){
+		return methCla.busConstructStereo();
+	};  
+
 	 
 	// general Synth methods  	  
 	public static void synthStop(int[] nodeId){
@@ -68,20 +78,20 @@ public class Engine {
 	  
 	// Sine Wave Oscillator
 	    
-	public static int[] sinePlay(float freq, float amp, float add, float pos){
-		return methCla.sinePlay(freq, amp, add, pos);
+	public static int[] sinePlay(float freq, float amp, float add, float pos, int busId){
+		return methCla.sinePlay(freq, amp, add, pos, busId);
 	};
 	    
 	//Saw Wave Oscillator
 	  
-	public static int[] sawPlay(float freq, float amp, float add, float pos){
-		return methCla.sawPlay(freq, amp, add, pos);
+	public static int[] sawPlay(float freq, float amp, float add, float pos, int busId){
+		return methCla.sawPlay(freq, amp, add, pos, busId);
 	};
 
 	//Square Wave Oscillator
 	  
-	public static int[] sqrPlay(float freq, float amp, float add, float pos){
-		return methCla.sqrPlay(freq, amp, add, pos);
+	public static int[] sqrPlay(float freq, float amp, float add, float pos, int busId){
+		return methCla.sqrPlay(freq, amp, add, pos, busId);
 	};
 	  
 	public static void sqrSet(float freq, float amp, float add, float pos, int[] nodeId){
@@ -90,12 +100,12 @@ public class Engine {
 	  
 	// Triangle Wave Oscillator
 	  
-	public static int[] triPlay(float freq, float amp, float add, float pos){
-		return methCla.triPlay(freq, amp, add, pos);
+	public static int[] triPlay(float freq, float amp, float add, float pos, int busId){
+		return methCla.triPlay(freq, amp, add, pos, busId);
 	};
 	  
-	public static int[] pulsePlay(float freq, float width, float amp, float add, float pos){
-		return methCla.pulsePlay(freq, width, amp, add, pos);
+	public static int[] pulsePlay(float freq, float width, float amp, float add, float pos, int busId){
+		return methCla.pulsePlay(freq, width, amp, add, pos, busId);
 	};
 	  
 	public static void pulseSet(float freq, float width, float amp, float add, float pos, int[] nodeId){
@@ -122,8 +132,12 @@ public class Engine {
 		return methCla.soundFileInfo(path);
 	};
 	    
-	public static int[] soundFilePlayMono(float rate, float pos, float amp, float add, boolean loop, String path, float dur, int cue){
-		return methCla.soundFilePlayMono(rate, pos, amp, add, loop, path, dur, cue);
+	public static int soundFileConstructMono(){
+		return methCla.soundFileConstructMono();
+	}
+
+	public static int[] soundFilePlayMono(float rate, float pos, float amp, float add, boolean loop, String path, float dur, int cue, int bus){
+		return methCla.soundFilePlayMono(rate, pos, amp, add, loop, path, dur, cue, bus);
 	};
 	  
 	public static int[] soundFilePlayMulti(float rate, float amp, float add, boolean loop, String path, float dur, int cue){
@@ -170,8 +184,8 @@ public class Engine {
     
 	// Envelope
 	    
-	public static int[] envelopePlay(int[] input, float attackTime, float sustainTime, float sustainLevel, float releaseTime){
-		return methCla.envelopePlay(input, attackTime, sustainTime, sustainLevel, releaseTime);
+	public static int[] envelopePlay(int[] input, float attackTime, float sustainTime, float sustainLevel, float releaseTime, int[] busIds){
+		return methCla.envelopePlay(input, attackTime, sustainTime, sustainLevel, releaseTime, busIds);
 	};
 	  
 	public static int doneAfter(float seconds){

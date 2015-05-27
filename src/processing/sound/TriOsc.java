@@ -32,31 +32,33 @@ public class TriOsc implements Oscillator{
 	private float m_amp = 0.5f;
 	private float m_add = 0;
 	private float m_pos = 0;
-	
+	private int m_panBusId;	
+
 	public TriOsc(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
     	m_engine.start();	
+		m_panBusId = m_engine.busConstructMono();
 	}
 	
 	public void play(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
-		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos);
+		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
 	
 	public void play(float freq, float amp, float add){
 		m_freq=freq; m_amp=amp; m_add=add;
-		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos);
+		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
 	
 	public void play(float freq, float amp){
 		m_freq=freq; m_amp=amp;
-		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos);
+		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
 	
 	public void play(){
-		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos);
+		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
 	
 	private void set(){
