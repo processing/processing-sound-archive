@@ -30,10 +30,7 @@ void setup() {
 }      
 
 
-void draw() {
-  // Map mouseX from 0.25 to 4.0 for playback rate. 1 equals original playback 
-  // speed 2 is an octave up 0.5 is an octave down.
-  soundfile.rate(map(mouseX, 0, width, 0.25, 4.0)); 
+void draw() { 
   
   // Map mouseY from 0.2 to 1.0 for amplitude  
   soundfile.amp(map(mouseY, 0, height, 0.2, 1.0)); 
