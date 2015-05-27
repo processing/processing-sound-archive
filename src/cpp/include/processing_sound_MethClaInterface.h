@@ -12,8 +12,8 @@ extern "C" {
  * Method:    mixPlay
  * Signature: ([I[F)[I
  */
-//JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay
-//  (JNIEnv *, jobject, jintArray, jfloatArray);
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_mixPlay
+  (JNIEnv *, jobject, jintArray, jfloatArray);
 
 /*
  * Class:     processing_sound_MethClaInterface
@@ -37,6 +37,22 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_engineStart
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_engineStop
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     processing_sound_MethClaInterface
+ * Method:    busConstructMono
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_processing_sound_MethClaInterface_busConstructMono
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     processing_sound_MethClaInterface
+ * Method:    busConstructStereo
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_busConstructStereo
   (JNIEnv *, jobject);
 
 /*
@@ -66,26 +82,26 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_oscAudioSet
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    sinePlay
- * Signature: (FFFF)[I
+ * Signature: (FFFFI)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_sinePlay
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    sawPlay
- * Signature: (FFFF)[I
+ * Signature: (FFFFI)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_sawPlay
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    sqrPlay
- * Signature: (FFFF)[I
+ * Signature: (FFFFI)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_sqrPlay
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
@@ -98,18 +114,18 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_sqrSet
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    triPlay
- * Signature: (FFFF)[I
+ * Signature: (FFFFI)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_triPlay
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    pulsePlay
- * Signature: (FFFFF)[I
+ * Signature: (FFFFFI)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_pulsePlay
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jfloat, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
@@ -153,11 +169,19 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFileInfo
 
 /*
  * Class:     processing_sound_MethClaInterface
+ * Method:    soundFileConstructMono
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_processing_sound_MethClaInterface_soundFileConstructMono
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     processing_sound_MethClaInterface
  * Method:    soundFilePlayMono
- * Signature: (FFFFZLjava/lang/String;FI)[I
+ * Signature: (FFFFZLjava/lang/String;FII)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlayMono
-  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jboolean, jstring, jfloat, jint);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat, jfloat, jboolean, jstring, jfloat, jint, jint);
 
 /*
  * Class:     processing_sound_MethClaInterface
@@ -234,10 +258,10 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_brownNoiseSet
 /*
  * Class:     processing_sound_MethClaInterface
  * Method:    envelopePlay
- * Signature: ([IFFFF)[I
+ * Signature: ([IFFFF[I)[I
  */
 JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_envelopePlay
-  (JNIEnv *, jobject, jintArray, jfloat, jfloat, jfloat, jfloat);
+  (JNIEnv *, jobject, jintArray, jfloat, jfloat, jfloat, jfloat, jintArray);
 
 /*
  * Class:     processing_sound_MethClaInterface
