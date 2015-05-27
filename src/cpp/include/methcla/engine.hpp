@@ -258,7 +258,7 @@ namespace Methcla
                     return Id(m_offset + i);
                 }
             }
-            throw std::runtime_error("engine.hpp No free ids");
+            throw std::runtime_error("No free ids");
         }
 
         void free(Id id)
@@ -951,7 +951,6 @@ namespace Methcla
                     if (nodeId == otherNodeId)
                     {
                         nodeIdAllocator().free(nodeId);
-                        std::cout << nodeIdAllocator().getStatistics().allocated() << std::endl;
                         return true;
                     }
                 }
