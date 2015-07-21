@@ -21,7 +21,7 @@ Env env;
 float attackTime = 0.001;
 float sustainTime = 0.004;
 float sustainLevel = 0.3;
-float releaseTime = 0.4;
+float releaseTime = 0.2;
 
 // This is an octave in MIDI notes.
 int[] midiSequence = { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72}; 
