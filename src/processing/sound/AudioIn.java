@@ -63,9 +63,7 @@ public class AudioIn implements SoundObject{
 	public void play(){
 		if(m_nodeId[1] < 0){
 			this.start();
-			System.out.println(m_nodeId);
 		}
-		System.out.println(m_nodeId);
 		m_engine.audioInPlay(m_nodeId[1]);
 	}
 	
