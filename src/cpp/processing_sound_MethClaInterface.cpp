@@ -1291,8 +1291,6 @@ JNIEXPORT jlong JNICALL Java_processing_sound_MethClaInterface_fft(JNIEnv *env, 
     Methcla::Request request(engine());
     request.openBundle(Methcla::immediately);
 
-    std::cout << fftSize << std::endl;
-
     auto synth = request.synth(
             METHCLA_PLUGINS_FFT_URI,
             Methcla::NodePlacement::after(m_nodeId[0]),
