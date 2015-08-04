@@ -1,7 +1,10 @@
-all: 	
+# needs gcc-4.7 or later
+CC := g++
+JAVA_INCLUDES := /usr/local/java/jdk1.7.0_60/include/linux
 
-	gcc -fPIC -I/usr/local/java/jdk1.7.0_60/include/linux -I./include -I/usr/local/java/jdk1.7.0_60/include -std=c++11 -g -c processing_sound_MethClaInterface.cpp;       
-	gcc -shared -Wl,-rpath,/usr/local/lib -o libMethClaInterface.so *.o -lmethcla;
+all:
+	$(CC) -fPIC -I$(JAVA_INCLUDES)/linux -I./include -I$(JAVA_INCLUDES) -std=c++11 -g -c processing_sound_MethClaInterface.cpp;
+	$(CC) -shared -Wl,-rpath,/usr/local/lib -o libMethClaInterface.so *.o -lmethcla;
 
 clean:
 	rm *.o
@@ -9,5 +12,3 @@ clean:
 
 install:
 	cp libMethClaInterface.so ../../library/linux
-
-
