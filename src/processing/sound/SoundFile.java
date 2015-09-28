@@ -150,7 +150,7 @@ public class SoundFile implements SoundObject {
             this.stop();
         }
         
-        m_cue = (int)time * m_info[1];
+		m_cue = (int)(time * m_info[1]);
         
         if(m_loop == true) {
         	if(this.channels() < 2){
@@ -171,7 +171,7 @@ public class SoundFile implements SoundObject {
 	}
 	
 	public void cue(float time){
-		m_cue = (int)time * m_info[1];
+		m_cue = (int)(time * m_info[1]);
 	}
 	
 	private void set(){

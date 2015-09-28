@@ -2,9 +2,14 @@
 CC := g++
 JAVA_INCLUDES := /usr/local/java/jdk1.7.0_60/include/linux
 
+<<<<<<< HEAD
 all:
 	$(CC) -fPIC -I$(JAVA_INCLUDES)/linux -I./include -I$(JAVA_INCLUDES) -std=c++11 -g -c processing_sound_MethClaInterface.cpp;
 	$(CC) -shared -Wl,-rpath,/usr/local/lib -o libMethClaInterface.so *.o -lmethcla;
+=======
+	gcc -fPIC -I/usr/local/java/jdk1.8.0_25/include/linux -I./include -I/usr/local/java/jdk1.8.0_25/include -std=c++11 -g -c processing_sound_MethClaInterface.cpp;       
+	gcc -shared -Wl,-rpath,/usr/local/lib -o libMethClaInterface.so *.o -lmethcla;
+>>>>>>> master
 
 clean:
 	rm *.o
