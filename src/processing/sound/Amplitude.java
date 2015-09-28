@@ -23,17 +23,16 @@
 package processing.sound;
 import processing.core.PApplet;
 
-
-   /**
-   * ( begin auto-generated from Amplitude.xml )
-   *
-   * This is a volume analyzer. It calculates the root mean square of the amplitude of each audio block
-   * and returns that value.
-   *
-   * ( end auto-generated )
-   * @webref sound
-   * @param parent PApplet: typically use "this"
-   */
+/**
+* ( begin auto-generated from Amplitude.xml )
+*
+* This is a volume analyzer. It calculates the root mean square of the amplitude of each audio block
+* and returns that value.
+*
+* ( end auto-generated )
+* @webref sound
+* @param parent PApplet: typically use "this"
+*/
 
 public class Amplitude {
 	
