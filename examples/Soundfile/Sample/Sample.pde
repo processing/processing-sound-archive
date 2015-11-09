@@ -33,5 +33,5 @@ void draw() {
   soundfile.amp(map(mouseY, 0, width, 0.2, 1.0)); 
  
   // Map mouseY from -1.0 to 1.0 for left to right 
-  soundfile.pan(map(mouseY, 0, width, -1.0, 1.0));  
+  soundfile.pan(map(mouseY, 0, height, -1.0, 1.0));  
 }
