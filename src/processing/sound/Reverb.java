@@ -59,7 +59,9 @@ public class Reverb implements SoundObject{
 	}	
 	
 	private void set(){
-		m_engine.reverbSet(m_room, m_damp, m_wet, m_nodeId[0]);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.reverbSet(m_room, m_damp, m_wet, m_nodeId[0]);
+		}
 	}
 	
 	public void set(float room, float damp, float wet){
@@ -87,7 +89,12 @@ public class Reverb implements SoundObject{
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
 	}
 
 	public void dispose() {

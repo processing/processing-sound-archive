@@ -109,8 +109,13 @@ public class Pulse implements SoundObject {
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
-	};
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
+	}
 	
 	public int[] returnId(){
 		return m_nodeId;

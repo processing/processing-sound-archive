@@ -52,8 +52,8 @@ public class Amplitude {
     	*
 	* Defines the audio input source of the amplitude analyzer.
 	*
-    	* ( end auto-generated )
-    	* @webref sound
+    * ( end auto-generated )
+    * @webref sound
 	* @param input Input sound source
    	**/
 	public void input(SoundObject input){
@@ -64,24 +64,24 @@ public class Amplitude {
 	* ( begin auto-generated from Amplitude.xml )
     	*
 	* Queries a value from the analyzer and returns a float between 0. and 1. 
-    	*
-    	* ( end auto-generated )
-    	* @webref sound	
+    *
+    * ( end auto-generated )
+    * @webref sound	
 	* @return amp An amplitude value between 0-1.
 	**/
 
 	public float analyze(){
 		return m_engine.poll_amplitude(ptr);
 	}
-	/*
-	public void stop(){
-		m_engine.synthStop(m_nodeId);
-	}
 	
-	public int returnId(){
-		return m_nodeId;
-	}
-	*/
+	// public void stop(){
+	// 	m_engine.synthStop(m_nodeId);	
+	// }
+	
+	// public int returnId(){
+	// 	return m_nodeId;
+	// }
+	
 	public void dispose() {
 		m_engine.destroy_amplitude(ptr);
 		//m_engine.synthStop(m_nodeId);

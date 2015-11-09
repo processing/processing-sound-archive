@@ -45,18 +45,18 @@ public class SinOsc implements Oscillator {
 	
 	public void play(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
-		m_nodeId = m_engine.sinePlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
-	}
+		this.play();
+		}
 	
 	public void play(float freq, float amp, float add){
 		m_freq=freq; m_amp=amp; m_add=add;
-		m_nodeId = m_engine.sinePlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
-	}
+		this.play();
+		}
 	
 	public void play(float freq, float amp){
 		m_freq=freq; m_amp=amp;
-		m_nodeId = m_engine.sinePlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
-	}
+		this.play();
+		}
 	
 	public void play(){
 		m_nodeId = m_engine.sinePlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
@@ -94,7 +94,12 @@ public class SinOsc implements Oscillator {
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
 	}
 	
 	public int[] returnId(){

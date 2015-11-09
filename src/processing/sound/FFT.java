@@ -65,16 +65,14 @@ public class FFT {
 		return m_fftSize;
 	}
 	
-
-	/*
-	public void stop(){
-		m_engine.synthStop(m_nodeId);
-	}
+	// public void stop(){
+	// 	m_engine.synthStop(m_nodeId);
+	// }
 	
-	public int returnId(){
-		return m_nodeId;
-	}
-	*/
+	// public int returnId(){
+	// 	return m_nodeId;
+	// }
+	
 	public void dispose() {
 		//m_engine.synthStop(m_nodeId);
 		m_engine.destroy_fft(ptr);

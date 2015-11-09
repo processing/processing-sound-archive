@@ -47,7 +47,9 @@ public class LowPass implements SoundObject{
 	}
 	
 	private void set(){
-		m_engine.filterSet(m_freq, m_nodeId[0]);
+		if(m_nodeId[0] != -1 ) {		
+			m_engine.filterSet(m_freq, m_nodeId[0]);
+		}
 	}
 	
 	public void set(float freq){
@@ -65,7 +67,12 @@ public class LowPass implements SoundObject{
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
 	}
 
 	public void dispose() {

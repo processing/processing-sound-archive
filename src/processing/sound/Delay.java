@@ -55,7 +55,9 @@ public class Delay implements SoundObject{
 	}
 	
 	private void set(){
-		m_engine.delaySet(m_delayTime, m_feedBack, m_nodeId[0]);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.delaySet(m_delayTime, m_feedBack, m_nodeId[0]);
+		}
 	}
 	
 	public void set(float delayTime, float feedBack){
@@ -78,7 +80,12 @@ public class Delay implements SoundObject{
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
 	}
 
 	public void dispose() {

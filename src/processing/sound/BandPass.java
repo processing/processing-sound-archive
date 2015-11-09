@@ -53,7 +53,9 @@ public class BandPass implements SoundObject{
 	}
 
 	private void set(){
-		m_engine.filterBwSet(m_freq, m_bw, m_nodeId[0]);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.filterBwSet(m_freq, m_bw, m_nodeId[0]);
+		}
 	}
 	
 	public void set(float freq, float bw){
@@ -76,7 +78,12 @@ public class BandPass implements SoundObject{
 	}
 	
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_nodeId[0] != -1 ) {
+			m_engine.synthStop(m_nodeId);
+			for(int i = 0; i < m_nodeId.length; i++)  {
+				m_nodeId[i] = -1;
+			}
+		}
 	}
 
 	public void dispose() {
