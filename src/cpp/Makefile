@@ -1,5 +1,5 @@
 all: 	
-	g++ -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp;		
+	g++ -I/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/include -I/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/include/darwin -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp;		
 	g++ -dynamiclib -lmethcla -L../../library/macosx/ -o libMethClaInterface.jnilib *.o;
 
 clean:
