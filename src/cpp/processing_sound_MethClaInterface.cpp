@@ -153,14 +153,24 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_busConstructS
 
 JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_synthStop(JNIEnv *env, jobject object, jintArray nodeId){
     jint* m_nodeId = env->GetIntArrayElements(nodeId, 0); 
-
+    const jsize length = env->GetArrayLength(nodeId);
     Methcla::Request request(engine());
+    Methcla::NodeTreeStatistics results;
+
     request.openBundle(Methcla::immediately);
-    request.free(m_nodeId[0]);
-    request.free(m_nodeId[1]);
+    
+    for (int i = 0; i < length; ++i)
+    {
+        request.free(m_nodeId[i]);
+    }
 
     request.closeBundle();
     request.send();
+
+    // results = engine().getNodeTreeStatistics();
+    // std::cout << "stop results" << std::endl;
+    // std::cout << results.numSynths << std::endl;
+
 
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
 
@@ -582,14 +592,17 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
  
     const char *str = env->GetStringUTFChars(path, 0);
 
-    jintArray nodeId = env->NewIntArray(2);
+    jintArray nodeId = env->NewIntArray(4);
     jint *m_nodeId = env->GetIntArrayElements(nodeId, NULL);
 
     Methcla::Request request(engine());
+    // Methcla::NodeTreeStatistics results;
 
+    // std::cout << "start results before" << std::endl;
+    // std::cout << results.numSynths << std::endl;
     //Methcla::AudioBusId bus = m_engine->audioBusId().alloc();
 
-    //std::cout << bus.id() << std::endl;
+    //std::cout << bus << std::endl;
 
     request.openBundle(Methcla::immediately);
     auto synth = request.synth(
@@ -600,6 +613,14 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
               Methcla::Value(loop),
               Methcla::Value(int(cue)) }
     );
+
+    auto after_synth = request.synth(
+            METHCLA_PLUGINS_DONE_AFTER_URI,
+            //Methcla::NodePlacement::after(synth.id()),
+            engine().root(),
+            { },
+            { Methcla::Value(dur) }
+    );
     
     auto pan = request.synth(
             METHCLA_PLUGINS_PAN2_URI, 
@@ -607,17 +628,11 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
             {pos, 1.f},
             {Methcla::Value(1.f)}
     );
-    
-    auto after_synth = request.synth(
-            METHCLA_PLUGINS_DONE_AFTER_URI,
-            Methcla::NodePlacement::after(synth.id()),
-            { },
-            { Methcla::Value(dur) }
-    );
 
     auto after_pan = request.synth(
             METHCLA_PLUGINS_DONE_AFTER_URI,
-            Methcla::NodePlacement::after(pan.id()),
+            engine().root(),
+            //Methcla::NodePlacement::after(pan.id()),
             { },
             { Methcla::Value(dur) }
     );
@@ -630,10 +645,16 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
     request.whenDone(after_pan.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.whenDone(after_synth.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.activate(synth.id());
-
     request.activate(pan.id());
+
+
+    // std::cout << "loop" << std::endl;    
+    // std::cout << loop << std::endl;
+    // std::cout << "loop" << std::endl;    
+
     if (loop == false)
     {
+        // std::cout << "jo iss ne" << std::endl;    
         request.activate(after_synth.id());
         request.activate(after_pan.id());
     }   
@@ -648,6 +669,26 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
 
     m_nodeId[0]=synth.id();
     m_nodeId[1]=pan.id();
+
+    if (loop == false)
+    {
+       m_nodeId[2]=after_synth.id();
+       m_nodeId[3]=after_pan.id();
+    }
+
+    // std::cout << "no.. 1" << std::endl;
+    // std::cout << m_nodeId[0] << std::endl;
+    // std::cout << "no.. 2" << std::endl;
+    // std::cout << m_nodeId[1] << std::endl;
+    // std::cout << "no.. 3" << std::endl;
+    // std::cout << m_nodeId[2] << std::endl;
+    // std::cout << "no.. 4" << std::endl;
+    // std::cout << m_nodeId[3] << std::endl;
+
+    // results = engine().getNodeTreeStatistics();
+    // std::cout << "start results" << std::endl;
+    // std::cout << results.numSynths << std::endl;
+
 
     env->ReleaseStringUTFChars(path, str);  
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
