@@ -207,4 +207,8 @@ public class MethClaInterface
   
   public native void destroy_fft(long ptr);
 
+  // Maintenance methods
+
+  //public native void getSynthStats();
+
 }
