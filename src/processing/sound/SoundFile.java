@@ -38,7 +38,8 @@ public class SoundFile implements SoundObject {
 	int m_cue=0;
 	float m_pos=0; 
 	boolean m_loop;
-	int m_panBusId;	
+	int m_panBusId;
+	int m_isPlaying=0;	
 	
 	public SoundFile(PApplet theParent, String path) {
 		this.parent = theParent;
@@ -76,12 +77,15 @@ public class SoundFile implements SoundObject {
 	
 	public void play(){
 		m_loop=false;
-		if(this.channels() == 1){
+
+		if(this.channels() == 1 && m_isPlaying == 0){
 			m_nodeId = methCla.soundFilePlayMono(m_rate, m_pos, m_amp, m_add, false, m_filePath, this.duration()*(1/m_rate), m_cue, m_panBusId);
 		}
-		else if(this.channels() == 2){
+		else if(this.channels() == 2 && m_isPlaying == 0){
 			m_nodeId = methCla.soundFilePlayMulti(m_rate, m_amp, m_add, false, m_filePath, this.duration()*(1/m_rate), m_cue);
 		}
+		m_isPlaying=1;
+
 	}
 
 	public void play(float rate, float pos, float amp, float add, int cue){
@@ -111,12 +115,13 @@ public class SoundFile implements SoundObject {
 	
 	public void loop(){
 		m_loop=true;
-		if(this.channels() < 2){
+		if(this.channels() < 2 && m_isPlaying == 0){
 			m_nodeId = methCla.soundFilePlayMono(m_rate, m_pos, m_amp, m_add, true, m_filePath, this.duration()*(1/m_rate), m_cue, m_panBusId);
 		}
-		else if(this.channels() == 2){
+		else if(this.channels() == 2 && m_isPlaying == 0){
 			m_nodeId = methCla.soundFilePlayMulti(m_rate, m_amp, m_add, true, m_filePath, this.duration()*(1/m_rate), m_cue);
 		}
+		m_isPlaying=1;
 	}
 
 	public void loop(float rate, float pos, float amp, float add, int cue){
@@ -153,21 +158,23 @@ public class SoundFile implements SoundObject {
 		m_cue = (int)(time * m_info[1]);
         
         if(m_loop == true) {
-        	if(this.channels() < 2){
+        	if(this.channels() < 2 && m_isPlaying == 0){
 				m_nodeId = methCla.soundFilePlayMono(m_rate, m_pos, m_amp, m_add, true, m_filePath, this.duration()*(1/m_rate), m_cue, m_panBusId);
 			}
-			else if(this.channels() == 2){
+			else if(this.channels() == 2 && m_isPlaying == 0){
 				m_nodeId = methCla.soundFilePlayMulti(m_rate, m_amp, m_add, true, m_filePath, this.duration()*(1/m_rate), m_cue);
 			}
         }
         else {
-  			if(this.channels() < 2){
+  			if(this.channels() < 2 && m_isPlaying == 0){
 				m_nodeId = methCla.soundFilePlayMono(m_rate, m_pos, m_amp, m_add, false, m_filePath, this.duration()*(1/m_rate), m_cue, m_panBusId);
 			}
-			else if(this.channels() == 2){
+			else if(this.channels() == 2 && m_isPlaying == 0){
 				m_nodeId = methCla.soundFilePlayMulti(m_rate, m_amp, m_add, false, m_filePath, this.duration()*(1/m_rate), m_cue);
 			}	
         }
+
+        m_isPlaying = 1;
 	}
 	
 	public void cue(float time){
@@ -175,7 +182,7 @@ public class SoundFile implements SoundObject {
 	}
 	
 	private void set(){
-		if(m_nodeId[0] != -1 ) {
+		if(m_nodeId[0] != -1 && m_isPlaying == 1) {
 			if(this.channels() < 2){
 				m_engine.soundFileSetMono(m_rate, m_pos, m_amp, m_add, m_nodeId);		
 			}
@@ -215,11 +222,18 @@ public class SoundFile implements SoundObject {
 	}
 
 	public void stop(){
-		m_engine.synthStop(m_nodeId);
+		if(m_isPlaying == 1) {
+			m_engine.synthStop(m_nodeId);
+		}
+		m_isPlaying=0;
 	}
 	
 	public int[] returnId(){
 		return m_nodeId;
+	}
+
+	public int isPlaying(){
+		return m_isPlaying;
 	}
 
 	public void dispose() {
