@@ -23,6 +23,13 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a Fast Fourier Transform (FFT) analyzer. It calculuates the normalized power spectrum of an audio stream the moment it is queried with the analyze() method.
+* @webref sound
+* @param parent PApplet: typically use "this"
+* @param fftsize Size of FFT bandwidth in integers (default 512)
+**/
+
 public class FFT {
 	
 	PApplet parent;
@@ -41,6 +48,12 @@ public class FFT {
     	m_engine.start();
   	}
 	
+  	/**
+  	* Define the audio input for the analyzer.
+  	* @webref sound
+  	* @param input The input sound source
+  	**/
+
 	public void input(SoundObject input){
 		ptr = m_engine.fft(input.returnId(), m_fftSize);
 	}
@@ -52,6 +65,11 @@ public class FFT {
 			value[i] = m_value[i];
 		}
 	}
+
+	/**
+	* Queries a value from the analyzer and returns a vector the size of the pre-defined number of bands.
+	* @webref sound
+	**/
 
 	public void analyze(){
 		float[] m_value = m_engine.poll_fft(ptr);

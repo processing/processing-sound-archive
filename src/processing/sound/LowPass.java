@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a low pass filter
+* @sound webref
+* @param parent PApplet: typically use "this"
+**/
+
 public class LowPass implements SoundObject{
 	
 	PApplet parent;
@@ -42,6 +48,12 @@ public class LowPass implements SoundObject{
 		m_nodeId = m_engine.lowPassPlay(input.returnId(), m_freq);
 	}
 	
+	/**
+	* Start the low pass filter.
+	* @webref sound
+	* @param input The input sound source.
+	**/
+
 	public void process(SoundObject input){
 		m_nodeId = m_engine.lowPassPlay(input.returnId(), m_freq);
 	}
@@ -57,6 +69,12 @@ public class LowPass implements SoundObject{
 		this.set();
 	}
 	
+	/**
+	* Sets the cut off frequency for the filter
+	* @webref sound
+	* @param freq The frequency value as a float
+	**/
+
 	public void freq(float freq){
 		m_freq=freq;
 		this.set();
@@ -65,6 +83,11 @@ public class LowPass implements SoundObject{
 	public int[] returnId(){
 		return m_nodeId;
 	}
+	
+	/**
+	* Stops the low pass filter
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {

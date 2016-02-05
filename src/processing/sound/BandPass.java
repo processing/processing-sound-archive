@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+*This is a band pass filter.
+* @webref sound
+* @param parent PApplet: typically use "this"
+**/
+
 public class BandPass implements SoundObject{
 	
 	PApplet parent;
@@ -48,6 +54,12 @@ public class BandPass implements SoundObject{
 		m_nodeId = m_engine.bandPassPlay(input.returnId(), m_freq, m_bw);
 	}
 	
+	/**
+	* Start the Filter
+	* @webref sound
+	* @param input Input sound source
+   	**/	
+
 	public void process(SoundObject input){
 		m_nodeId = m_engine.bandPassPlay(input.returnId(), m_freq, m_bw);
 	}
@@ -58,15 +70,34 @@ public class BandPass implements SoundObject{
 		}
 	}
 	
+	/**
+	* Sets frequency and bandwidth of the filter with one method. 
+	* @webref sound
+	* @param freq Set the frequency
+	* @param bw Set the bandwidth
+	**/
+
 	public void set(float freq, float bw){
 		m_freq=freq; m_bw=bw;
 		this.set();
 	}
 	
+	/**
+	* Set the cutoff frequency for the filter 
+	* @webref sound
+	* @param freq Cutoff frequency between 0 and 20000
+	**/
+
 	public void freq(float freq){
 		m_freq=freq;
 		this.set();
 	}
+
+	/**
+	* Set the bandwidth for the filter.
+	* @webref sound
+	* @param freq Bandwidth in Hz
+	**/
 
 	public void bw(float bw){
 		m_bw=bw;
@@ -76,6 +107,11 @@ public class BandPass implements SoundObject{
 	public int[] returnId(){
 		return m_nodeId;
 	}
+	
+	/**
+	* Stops the filter.
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {

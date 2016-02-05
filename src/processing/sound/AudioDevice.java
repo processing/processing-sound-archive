@@ -23,6 +23,13 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* Audio Device allows for configuring the audio server. If you need a low latency server you can reduce the buffer size. Allowed values are power of 2. For changing the sample rate pass the appropriate value in the constructor. 
+* @webref sound
+* @param parent PApplet: typically use "this"
+* @param sampleRate Sets the sample rate (44100, 48000, or 96000).
+* @param bufferSize Sets the buffer size (32, 64, or 128).
+**/
 
 public class AudioDevice {
 

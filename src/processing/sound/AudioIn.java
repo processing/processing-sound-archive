@@ -23,6 +23,13 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* AudioIn let's you grab the audio input from your soundcard.
+* @webref sound
+* @param parent PApplet: typically use "this"
+* @param in Input Channel 
+**/
+
 public class AudioIn implements SoundObject{
 	
 	PApplet parent;
@@ -41,6 +48,11 @@ public class AudioIn implements SoundObject{
     	m_in = in;
    	}
 	
+	/**
+   	* Starts the input stream.
+	* @webref sound
+   	**/
+
    	public void start(){
 		m_nodeId = m_engine.audioInStart(m_amp, m_add, m_pos, m_in);
 	}
@@ -60,6 +72,11 @@ public class AudioIn implements SoundObject{
 		this.start();
 	}
 
+	/**
+	* Start the Input Stream and route it to the Audio Hardware Output
+	* @webref sound
+	**/
+
 	public void play(){
 		if(m_nodeId[1] < 0){
 			this.start();
@@ -73,25 +90,56 @@ public class AudioIn implements SoundObject{
 		}
 	}
 	
+		/**
+	* Set multiple parameters at once.
+	* @webref sound
+	* @param amp Amplitude value from 0.0 to 1.0
+	* @param add Offset value for modulating other audio signals
+	* @param pos Pan value from -1.0 to 1.0
+	**/
+
 	public void set(float amp, float add, float pos){
 		m_amp=amp; m_add=add; m_pos=pos;
 		this.set();
 	}
+
+	/**
+	* Change the amplitude/volume of the input steam.
+	* @webref sound
+	* @param amp Amplitude value from 0.0 to 1.0
+	**/
 
 	public void amp(float amp){
 		m_amp=amp;
 		this.set();
 	}
 	
+	/**
+	* Offset the output of the input stream by given value
+	* @webref sound
+	* @param add Offset value for modulating other audio signals
+	**/
+
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
 	
+	/**
+	* Move the sound in a stereo panorama
+	* @webref sound
+	* @param pos Pan value from -1.0 to 1.0
+	**/
+	
 	public void pan(float pos){
 		m_pos=pos;
 		this.set();
 	}
+	
+	/**
+	* Stop the input stream.
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {

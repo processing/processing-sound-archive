@@ -24,6 +24,13 @@ package processing.sound;
 import processing.core.PApplet;
 import java.io.File;
 
+/**
+* This is a Soundfile Player which allows to play back and manipulate soundfiles. Supported formats are: WAV, AIF/AIFF, MP3. 
+* @webref sound
+* @param parent PApplet: typically use "this"
+* @param path Full path to the file or filename for the data path
+**/
+
 public class SoundFile implements SoundObject {
 	
 	PApplet parent;
@@ -59,22 +66,51 @@ public class SoundFile implements SoundObject {
 		m_panBusId = m_engine.busConstructMono();
 	}
 	
+	/**
+	* Returns the number of frames/samples of the sound file.
+	* @webref sound
+	* @return Returns the number of samples of the soundfile as an int.
+	**/
+
 	public int frames(){
 		return (int)m_info[0];
 	}
+
+	/**
+	* Returns the sample rate of the soundfile.
+	* @webref sound
+	* @return Returns the sample rate of the soundfile as an int.
+	**/
 
 	public int sampleRate(){
 		return (int)m_info[1];
 	}
 
+	/**
+	* Returns the number of channels in the soundfile.
+	* @webref sound
+	* @return Returns the number of channels in the soundfile as an int.
+	**/
+
 	public int channels(){
 		return (int)m_info[2];
 	}
 	
+	/**
+	* Returns the duration of the the soundfile.
+	* @webref sound
+	* @return Returns the duration of the file in seconds.
+	**/
+
 	public float duration(){
 		return (float) this.frames()/this.sampleRate();
 	}
 	
+	/**
+	* Starts the playback of a soundfile. Only plays the soundfile once.
+	* @webref sound
+	**/
+
 	public void play(){
 		m_loop=false;
 
@@ -113,6 +149,11 @@ public class SoundFile implements SoundObject {
 		this.play();
 	}
 	
+	/**
+	* Starts the playback of a soundfile to loop.
+	* @webref sound
+	**/	
+	
 	public void loop(){
 		m_loop=true;
 		if(this.channels() < 2 && m_isPlaying == 0){
@@ -149,6 +190,12 @@ public class SoundFile implements SoundObject {
 		this.loop();
 	}
     
+	/**
+	* Jump to a specific position in the file while continuing to play.
+	* @webref sound
+	* @param time Position to jump to as a float in seconds.
+	**/
+
     public void jump(float time){
         
         if(m_nodeId[0]>(-1)){
@@ -177,6 +224,12 @@ public class SoundFile implements SoundObject {
         m_isPlaying = 1;
 	}
 	
+	/**
+	* Cues the playhead to a fixed position in the soundfile. Note that the time parameter supports only integer values. 
+	* @webref sound
+	* @param time Position to start from as integer seconds.
+	**/
+
 	public void cue(float time){
 		m_cue = (int)(time * m_info[1]);
 	}
@@ -192,11 +245,26 @@ public class SoundFile implements SoundObject {
 		}	
 	}
 	
+	/**
+	* Set multiple parameters at once
+	* @webref sound
+	* @param rate The playback rate of the original file. 
+	* @param pos The panoramic position of the player as a float from -1.0 to 1.0.
+	* @param amp The amplitude of the player as a value between 0.0 and 1.0.
+	* @param add A value for modulating other audio signals.
+	**/
+
 	public void set(float rate, float pos, float amp, float add){
 		m_rate=rate;m_pos=pos;m_amp=amp;m_add=add;
 		this.set();
 	}
 	
+	/**
+	* Move the sound in a stereo panorama, only supports Mono Files
+	* @webref sound
+	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
+	**/
+
 	public void pan(float pos){
 		if(this.channels() > 1){
 			throw new UnsupportedOperationException("Panning is not supported for stereo files");
@@ -206,20 +274,43 @@ public class SoundFile implements SoundObject {
 		this.set();
 	}
 
+	/**
+	* Change the playback rate of the soundfile.
+	* @webref sound
+	* @param rate This method changes the playback rate of the soundfile. 1 is the original speed. 0.5 is half speed and one octave down. 2 is double the speed and one octave up. 
+	**/
+
 	public void rate(float rate){
 		m_rate=rate;
 		this.set();
 	}
 	
+	/**
+	* Changes the amplitude/volume of the player.
+	* @webref sound
+	* @param amp A float value between 0.0 and 1.0 controlling the amplitude/volume of the player.
+	**/
+
 	public void amp(float amp){
 		m_amp=amp;
 		this.set();
 	}
 	
+	/**
+	* Offset the output of the player by given value
+	* @webref sound
+	* @param add A value for offsetting the players audio signal.
+	**/
+
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
+
+	/**
+	* Stops the player
+	* @webref sound
+	**/
 
 	public void stop(){
 		if(m_isPlaying == 1 && m_nodeId[0] != -1) {
@@ -234,6 +325,7 @@ public class SoundFile implements SoundObject {
 	public int[] returnId(){
 		return m_nodeId;
 	}
+
 
 	public int isPlaying(){
 		return m_isPlaying;

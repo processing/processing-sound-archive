@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a simple Triangle Wave Oscillator 
+* @webref sound
+* @param parent PApplet: typically use "this"
+**/
+
 public class TriOsc implements Oscillator{
 	
 	PApplet parent;
@@ -57,6 +63,11 @@ public class TriOsc implements Oscillator{
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
 	
+	/**
+	* Starts the oscillator
+	* @webref sound
+	**/
+
 	public void play(){
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
@@ -67,30 +78,68 @@ public class TriOsc implements Oscillator{
 		}
 	}
 	
+	/**
+	* Set multiple parameters at once
+	* @webref sound
+	* @param freq The frequency value of the oscillator in Hz.
+	* @param amp The amplitude of the oscillator as a value between 0.0 and 1.0.
+	* @param add A value for modulating other audio signals.
+	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
+	**/
+
 	public void set(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
 		this.set();
 	}
 	
+	/**
+	* Set the freuquency of the oscillator in Hz.
+	* @webref sound
+	* @param freq A floating point value of the oscillator in Hz.
+	**/
+
 	public void freq(float freq){
 		m_freq=freq;
 		this.set();
 	}
+
+	/**
+	* Set the amplitude/volume of the oscillator
+	* @webref sound
+	* @param amp The amplitude value of the oscillator as a float fom 0.0 to 1.0
+	**/
 
 	public void amp(float amp){
 		m_amp=amp;
 		this.set();
 	}
 	
+	/**
+	* Offset the output of the oscillator by given value
+	* @webref sound
+	* @param add A value for modulating other audio signals.
+	**/	
+
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
 	
+	/**
+	* Move the sound in a stereo panorama
+	* @webref sound
+	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
+	**/	
+
 	public void pan(float pos){
 		m_pos=pos;
 		this.set();
 	}
+	
+	/**
+	* Stop the oscillator.
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {

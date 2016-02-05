@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a simple delay effect.
+* @webref sound
+* @param parent PApplet: typically use "this"
+**/
+
 public class Reverb implements SoundObject{
 	
 	PApplet parent;
@@ -54,6 +60,12 @@ public class Reverb implements SoundObject{
 		m_nodeId = m_engine.reverbPlay(input.returnId(), m_room, m_damp, m_wet);
 	}
 
+	/**
+	* Start the reverb effect.
+	* @webref sound
+	* @param input The input audio signal.
+	**/
+
 	public void process(SoundObject input){
 		m_nodeId = m_engine.reverbPlay(input.returnId(), m_room, m_damp, m_wet);
 	}	
@@ -64,21 +76,47 @@ public class Reverb implements SoundObject{
 		}
 	}
 	
+	/**
+	* Set multiple parameters at once
+	* @webref sound
+	* @param room A value controlling the room size of the effet
+	* @param damp A value controlling the dampening factor of the reverb
+	* @param wet A value controlling the wet/dry ratio of the reverb.
+	**/
+
 	public void set(float room, float damp, float wet){
 		m_room=room; m_damp=damp; m_wet=wet;
 		this.set();
 	}
 	
+	/**
+	* Change the room size of the reverb effect.
+	* @webref sound
+	* @param room A float value controlling the room size of the effect.
+	**/
+
 	public void room(float room){
 		m_room=room;
 		this.set();
 	}
+
+	/**
+	* Change the dampening of the reverb effect
+	* @webref sound
+	* @param damp A float value controlling the dampening factor of the reverb
+	**/
 
 	public void damp(float damp){
 		m_damp=damp;
 		this.set();
 	}
 	
+	/**
+	* Change the dry/wet ratio of the delay effect
+	* @webref sound
+	* @param wet A float value controlling the wet/dry ratio of the reverb.
+	**/
+
 	public void wet(float wet){
 		m_wet=wet;
 		this.set();
@@ -88,6 +126,11 @@ public class Reverb implements SoundObject{
 		return m_nodeId;
 	}
 	
+	/**
+	* Stop the reverb effect
+	* @webref sound
+	**/
+
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {
 			m_engine.synthStop(m_nodeId);

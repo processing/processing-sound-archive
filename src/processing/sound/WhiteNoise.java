@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a White Noise Generator. White Noise has a flat spectrum. 
+* @webref sound
+* @param parent PApplet: typically use "this"	
+**/
+
 public class WhiteNoise implements Noise{
 	
 	PApplet parent;
@@ -31,21 +37,29 @@ public class WhiteNoise implements Noise{
 	private float m_amp=0.5f;
 	private float m_add=0;
 	private float m_pos=0;
+	private int m_panBusId;
+
 	
 	public WhiteNoise(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
-    	m_engine.start();			
+    	m_engine.start();	
+    	m_panBusId = m_engine.busConstructMono();		
 	}
 	
+	/**
+	* Start the generator
+	* @webref sound
+	**/
+
 	public void play(){
-		m_nodeId = m_engine.whiteNoisePlay(m_amp, m_add, m_pos);
+		m_nodeId = m_engine.whiteNoisePlay(m_amp, m_add, m_pos, m_panBusId);
 	}
 	
 	public void play(float amp, float add, float pos){
 		m_amp=amp; m_add=add; m_pos=pos;
-			this.play();
+		this.play();
 	}
 
 	public void play(float amp, float add){
@@ -63,26 +77,57 @@ public class WhiteNoise implements Noise{
 			m_engine.whiteNoiseSet(m_amp, m_add, m_pos, m_nodeId);
 		}
 	}
-		
+	
+	/**
+	* Set multiple parameters at once.
+	* @webref sound
+	* @param amp Amplitude value between 0.0 and 1.0
+	* @param add Offset the generator by a given value
+	* @param pos Pan the generator in stereo panorama. Allowed values are between -1.0 and 1.0.
+	**/
+
 	public void set(float amp, float add, float pos){
 		m_amp=amp;
 		this.set();
 	}
+	
+	/**
+	* Change the amplitude/volume of the generator
+	* @webref sound
+	* @param amp Amplitude value between 0.0 and 1.0.
+	**/
 	
 	public void amp(float amp){
 		m_amp=amp;
 		this.set();
 	}
 	
+	/**
+	* Offset the generator by a given Value
+	* @webref sound
+	* @param add Offset value for modulating other audio signals
+	**/
+
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
 	
+	/**
+	* Move the sound in a stereo panorama
+	* @webref sound
+	* @param pos Pan the generator in stereo panorama. Allowed values are between -1.0 and 1.0.
+	**/
+	
 	public void pan(float pos){
 		m_pos=pos;
 		this.set();
 	}
+	
+	/**
+	* Stop the generator
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {

@@ -24,12 +24,8 @@ package processing.sound;
 import processing.core.PApplet;
 
 /**
-* ( begin auto-generated from Amplitude.xml )
-*
 * This is a volume analyzer. It calculates the root mean square of the amplitude of each audio block
 * and returns that value.
-*
-* ( end auto-generated )
 * @webref sound
 * @param parent PApplet: typically use "this"
 */
@@ -48,11 +44,7 @@ public class Amplitude {
 	}
 
 	/**
-	* ( begin auto-generated from Amplitude.xml )
-    	*
 	* Defines the audio input source of the amplitude analyzer.
-	*
-    * ( end auto-generated )
     * @webref sound
 	* @param input Input sound source
    	**/
@@ -61,11 +53,7 @@ public class Amplitude {
 	}
 	
 	/**
-	* ( begin auto-generated from Amplitude.xml )
-    	*
 	* Queries a value from the analyzer and returns a float between 0. and 1. 
-    *
-    * ( end auto-generated )
     * @webref sound	
 	* @return amp An amplitude value between 0-1.
 	**/

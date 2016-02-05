@@ -154,8 +154,8 @@ public class Engine {
 	  
 	// White Noise
 	  
-	public static int[] whiteNoisePlay(float amp, float add, float pos){
-		return methCla.whiteNoisePlay(amp, add, pos);
+	public static int[] whiteNoisePlay(float amp, float add, float pos, int bus){
+		return methCla.whiteNoisePlay(amp, add, pos, bus);
 	};
 	  
 	public static void whiteNoiseSet(float amp, float add, float pos, int[] nodeId){
@@ -164,8 +164,8 @@ public class Engine {
 
   	// Pink Noise
   
-  	public static int[] pinkNoisePlay(float amp, float add, float pos){
-  		return methCla.pinkNoisePlay(amp, add, pos);
+  	public static int[] pinkNoisePlay(float amp, float add, float pos, int bus){
+  		return methCla.pinkNoisePlay(amp, add, pos, bus);
   	};
   
   	public static void pinkNoiseSet(float amp, float add, float pos, int[] nodeId){
@@ -174,8 +174,8 @@ public class Engine {
 	  
   	// Brown Noise
     
-  	public static int[] brownNoisePlay(float amp, float add, float pos){
-  		return methCla.brownNoisePlay(amp, add, pos);
+  	public static int[] brownNoisePlay(float amp, float add, float pos, int bus){
+  		return methCla.brownNoisePlay(amp, add, pos, bus);
   	};
     
   	public static void brownNoiseSet(float amp, float add, float pos, int[] nodeId){

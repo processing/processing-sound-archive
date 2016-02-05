@@ -130,19 +130,19 @@ public class MethClaInterface
   
   // White Noise
   
-  public native int[] whiteNoisePlay(float amp, float add, float pos);
+  public native int[] whiteNoisePlay(float amp, float add, float pos, int bus);
   
   public native void whiteNoiseSet(float amp, float add, float pos, int[] nodeId);
   
   // Pink Noise
   
-  public native int[] pinkNoisePlay(float amp, float add, float pos);
+  public native int[] pinkNoisePlay(float amp, float add, float pos, int bus);
   
   public native void pinkNoiseSet(float amp, float add, float pos, int[] nodeId);
 
   // Brown Noise
   
-  public native int[] brownNoisePlay(float amp, float add, float pos);
+  public native int[] brownNoisePlay(float amp, float add, float pos, int bus);
   
   public native void brownNoiseSet(float amp, float add, float pos, int[] nodeId);
 

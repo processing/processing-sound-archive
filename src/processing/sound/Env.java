@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is an ASR (Attack Sustain Release) Envelope Generator
+* @webref sound
+* @param parent PApplet: typically use "this"
+**/
+
 public class Env {
 	
 	PApplet parent;
@@ -37,6 +43,16 @@ public class Env {
     	m_engine.start();
     	m_busses = m_engine.busConstructStereo();
 	}
+
+	/**
+	* Triggers the envelope
+	* @webref sound
+	* @param input Input sound source
+	* @param attackTime Attack time value as a float.
+	* @param sustainTime Sustain time value as a float. 
+	* @param sustain Sustain level value as a float.
+	* @param releaseTime Release time value as a float.
+	**/
 	
 	public void play(SoundObject input, float attackTime, float sustainTime, float sustainLevel, float releaseTime){
 		m_nodeId = m_engine.envelopePlay(input.returnId(), attackTime, sustainTime, sustainLevel, releaseTime, m_busses);

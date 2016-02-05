@@ -23,6 +23,12 @@
 package processing.sound;
 import processing.core.PApplet;
 
+/**
+* This is a simple delay effect.
+* @webref sound
+* @param parent PApplet: typically use "this"	 
+**/
+
 public class Delay implements SoundObject{
 	
 	PApplet parent;
@@ -49,6 +55,13 @@ public class Delay implements SoundObject{
 		m_nodeId = m_engine.delayPlay(input.returnId(), m_maxDelayTime, m_delayTime, m_feedBack);
 	}
 
+	/**
+	* Start the delay effect	
+	* @webref sound
+	* @param input Input audio source
+	* @param maxDelayTime Maximum delay time as a float.
+	**/
+
 	public void process(SoundObject input, float maxDelayTime){
 		m_maxDelayTime=maxDelayTime; 
 		m_nodeId = m_engine.delayPlay(input.returnId(), m_maxDelayTime, m_delayTime, m_feedBack);
@@ -60,15 +73,34 @@ public class Delay implements SoundObject{
 		}
 	}
 	
+	/**
+	* Set delay time and feedback values at once
+	* @webref sound
+	* @param delayTime Maximum delay time as a float
+	* @param feedBack Feedback amount as a float
+	**/
+
 	public void set(float delayTime, float feedBack){
 		m_delayTime=delayTime; m_feedBack=feedBack;
 		this.set();
 	}
 	
+	/**
+	* Changes the delay time of the effect.
+	* @webref sound
+	* @param delayTime Maximum delay time as a float.
+	**/
+
 	public void time(float delayTime){
 		m_delayTime=delayTime;
 		this.set();
 	}
+
+	/**
+	* Change the feedback of the delay effect.
+	* @webref sound
+	* @param feedBack Feedback amount as a float.
+	**/
 
 	public void feedback(float feedBack){
 		m_feedBack=feedBack;
@@ -78,6 +110,11 @@ public class Delay implements SoundObject{
 	public int[] returnId(){
 		return m_nodeId;
 	}
+	
+	/**
+	* Stop the delay effect.
+	* @webref sound
+	**/
 	
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {
