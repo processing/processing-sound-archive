@@ -777,12 +777,11 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_soundFileSetStereo
 
 };
 
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_whiteNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos){
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_whiteNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos, jint bus){
     
     jintArray nodeId = env->NewIntArray(2);
     jint *m_nodeId = env->GetIntArrayElements(nodeId, NULL);
 
-    Methcla::AudioBusId bus = m_engine->audioBusId().alloc();
     Methcla::Request request(engine());
         
     request.openBundle(Methcla::immediately);
@@ -834,11 +833,10 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_whiteNoiseSet(JNIE
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
 };
 
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_pinkNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos){
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_pinkNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos, jint bus){
     jintArray nodeId = env->NewIntArray(2);
     jint *m_nodeId = env->GetIntArrayElements(nodeId, NULL);
 
-    Methcla::AudioBusId bus = m_engine->audioBusId().alloc();
     Methcla::Request request(engine());
         
     request.openBundle(Methcla::immediately);
@@ -890,11 +888,10 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_pinkNoiseSet(JNIEn
     env->ReleaseIntArrayElements(nodeId, m_nodeId, 0);
 };
 
-JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_brownNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos){
+JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_brownNoisePlay(JNIEnv *env, jobject object, jfloat amp, jfloat add, jfloat pos, jint bus){
     jintArray nodeId = env->NewIntArray(2);
     jint *m_nodeId = env->GetIntArrayElements(nodeId, NULL);
     
-    Methcla::AudioBusId bus = m_engine->audioBusId().alloc();
     Methcla::Request request(engine());
     
     request.openBundle(Methcla::immediately);
