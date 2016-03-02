@@ -1,0 +1,13 @@
+# needs gcc-4.7 or later
+CC := g++
+
+all:
+	$(CC) -fPIC -I$(JAVA_INCLUDES)/linux -I./include -I$(JAVA_INCLUDES) -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CC) -shared -Wl,-rpath,/usr/local/lib -o libMethClaInterface.so *.o -lmethcla
+
+clean:
+	rm *.o
+	rm *.jnilib
+
+install:
+	cp libMethClaInterface.so ../../library/linux
