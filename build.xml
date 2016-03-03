@@ -52,8 +52,7 @@
 	   encoding="UTF-8"
 	   includeAntRuntime="false"
 	   classpath="../processing/core/library/core.jar; library/sound.jar"
-	   nowarn="true"
-	   compiler="org.eclipse.jdt.core.JDTCompilerAdapter">
+	   nowarn="true">
       <compilerclasspath path="../processing/java/mode/org.eclipse.jdt.core.jar; 
                                ../processing/java/mode/jdtCompilerAdapter.jar" />
     </javac>
