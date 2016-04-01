@@ -7,7 +7,7 @@ LIBRARY = libMethClaInterface.so
 .PHONY: clean install
 
 $(LIBRARY):
-	$(CC) -m$(ARCH) -fPIC -I$(JAVA_INCLUDES)/linux -I./include -I$(JAVA_HOME)/include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CC) -m$(ARCH) -fPIC -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/linux -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
 	$(CC) -m$(ARCH) -shared -L$(LIB_DIR) -Wl,-rpath,'$$ORIGIN' -o $@ *.o -lmethcla
 
 clean:
