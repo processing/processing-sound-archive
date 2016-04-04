@@ -1,10 +1,17 @@
-all:
-	g++ -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
-	g++ -shared -lmethcla -L../../library/windows64/ -static-libgcc -static-libstdc++ -o libMethClaInterface.dll *.o
+CXX := g++
+ARCH := 64
+LIB_DIR = ../../library/windows$(ARCH)/
+LIBRARY = libMethClaInterface.dll
+
+.PHONY: $(LIBRARY) clean install
+
+$(LIBRARY):
+	$(CXX) -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CXX) -shared -lmethcla -L$(LIB_DIR) -static-libgcc -static-libstdc++ -o $@ *.o
 
 clean:
 	rm *.o
 	rm *.dll
 
-install:
-	cp libMethClaInterface.dll ../../library/windows64
+install: $(LIBRARY)
+	cp $(LIBRARY) $(LIB_DIR)
