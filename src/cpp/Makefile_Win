@@ -7,4 +7,4 @@ clean:
 	rm *.dll
 
 install:
-	cp libMethClaInterface.dll ../../lib/windows64
+	cp libMethClaInterface.dll ../../library/windows64
