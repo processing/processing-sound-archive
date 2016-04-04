@@ -1,11 +1,17 @@
-all:
-	g++ -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/darwin -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
-	g++ -dynamiclib -lmethcla -L../../library/macosx/ -o libMethClaInterface.jnilib *.o
+CXX := c++
+LIB_DIR = ../../library/macosx/
+LIBRARY = libMethClaInterface.jnilib
+
+.PHONY: $(LIBRARY) clean install
+
+$(LIBRARY):
+	$(CXX) -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/darwin -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CXX) -dynamiclib -lmethcla -L$(LIB_DIR) -o $@ *.o
 
 clean:
 	rm *.o
 	rm *.jnilib
 
-install:
-	install_name_tool -change @executable_path/libmethcla.dylib  @loader_path/libmethcla.dylib libMethClaInterface.jnilib
-	cp libMethClaInterface.jnilib ../../library/macosx
+install: $(LIBRARY)
+	install_name_tool -change @executable_path/libmethcla.dylib  @loader_path/libmethcla.dylib $(LIBRARY)
+	cp $(LIBRARY) $(LIB_DIR)
