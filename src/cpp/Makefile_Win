@@ -1,5 +1,5 @@
 all:
-	g++ -Ic:$(JAVA_INCLUDES) -Ic:$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	g++ -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
 	g++ -shared -lmethcla -L../../library/windows64/ -static-libgcc -static-libstdc++ -o libMethClaInterface.dll *.o
 
 clean:
