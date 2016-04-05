@@ -13,5 +13,6 @@ clean:
 	rm *.jnilib
 
 install: $(LIBRARY)
+	# This is a NOP:
 	install_name_tool -change @executable_path/libmethcla.dylib  @loader_path/libmethcla.dylib $(LIBRARY)
 	cp $(LIBRARY) $(LIB_DIR)
