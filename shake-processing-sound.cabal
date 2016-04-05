@@ -1,0 +1,23 @@
+name:                shake-processing-sound
+version:             0.1.0.0
+synopsis:            Shake build system for Processing Sound library
+description:         Please see README.md
+homepage:            https://github.com/processing/processing-sound
+license:             GPL
+-- license-file:        LICENSE
+author:              Stefan Kersten
+maintainer:          stefan@samplecount.com
+copyright:           2016 Samplecount S.L.
+category:            Sound
+build-type:          Simple
+-- extra-source-files:
+cabal-version:       >=1.10
+
+executable shake-processing-sound
+  hs-source-dirs:      .
+  main-is:             shakefile.hs
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , shake
+                     , shake-language-c
+  default-language:    Haskell2010
