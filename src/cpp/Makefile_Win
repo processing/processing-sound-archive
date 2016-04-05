@@ -5,9 +5,16 @@ LIBRARY = libMethClaInterface.dll
 
 .PHONY: $(LIBRARY) clean install
 
+# Assume win-builds toolchain for now
+# Might want to port to mingw-builds or similar
+$(LIBRARY): export PATH=/opt/windows_$(ARCH)/bin
 $(LIBRARY):
-	$(CXX) -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
-	$(CXX) -shared -lmethcla -L$(LIB_DIR) -static-libgcc -static-libstdc++ -o $@ *.o
+	$(CXX) -m$(ARCH) -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/win32 -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	# Pass --kill-at to the linker in order to remove '@' suffixes from exported symbols
+	# See http://stackoverflow.com/questions/24398646/java-jni-native-library-loads-on-64bit-and-32bit-but-doesnt-run-on-32bit-solv
+	# and https://sourceware.org/binutils/docs/ld/Options.html#Options
+	# A better way would probably be to only export the symbols we need with dlltool.exe
+	$(CXX) -m$(ARCH) -Wl,--kill-at -shared -lmethcla -L$(LIB_DIR) -static-libgcc -static-libstdc++ -o $@ *.o
 
 clean:
 	rm *.o
