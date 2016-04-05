@@ -1,6 +1,7 @@
 module Main where
 
 import           Control.Arrow (second)
+import           Control.Monad (when)
 import           Data.Char (toLower)
 import           Development.Shake
 import           Development.Shake.FilePath
@@ -32,6 +33,18 @@ flags = [ Option "" ["java-includes"]
 buildDir :: FilePath
 buildDir = "build"
 
+targetDirectory :: OS -> String -> String
+targetDirectory Linux arch = "linux" ++ arch
+targetDirectory OSX _ = "macosx"
+targetDirectory Windows arch = "windows" ++ arch
+targetDirectory os _ = error $ "Unsupported target OS " ++ show os
+
+sharedLibraryExtension :: OS -> String
+sharedLibraryExtension Linux = "so"
+sharedLibraryExtension OSX = "jnilib"
+sharedLibraryExtension Windows = "dll"
+sharedLibraryExtension os = error $ "Unsupported target OS " ++ show os
+
 main :: IO ()
 main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targets -> return $ Just $ do
   let options = foldl (.) id flags $ Options "" "64"
@@ -53,12 +66,19 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
         ] "config/library.cfg"
       buildPrefix = buildDir </> toBuildPrefix target </> "arch" ++ targetArchitecture options
       build f ext =
-        f toolChain (buildPrefix </> "libMethclaInterface" <.> ext)
+        f toolChain (buildPrefix </> "libMethClaInterface" <.> ext)
                     (BuildFlags.fromConfig getConfig)
                     (Config.getPaths getConfig ["Sources"])
-  sharedLib <- build sharedLibrary Host.sharedLibraryExtension
+  sharedLib <- build sharedLibrary (sharedLibraryExtension (targetOS target))
+
+  let installedLib = "library" </> targetDirectory (targetOS target) (targetArchitecture options) </> takeFileName sharedLib
+  installedLib %> \out -> do
+    copyFile' sharedLib out
+    when (targetOS target == OSX) $
+      cmd "install_name_tool -change @loader_path/libmethcla.dylib @executable_path/libmethcla.dylib" out
 
   phony "lib" $ need [sharedLib]
+  phony "install" $ need [installedLib]
   phony "clean" $ removeFilesAfter buildDir ["//*"]
 
   want targets

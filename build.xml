@@ -25,16 +25,15 @@
   <target name="clean" description="Clean the build directories">
     <delete dir="bin" />
     <delete file="library/sound.jar" />
-    <exec executable="make" dir="src/cpp">
-      <arg line="-f Makefile_${platform} clean"/>
+    <exec executable="./shake">
+      <arg line="clean"/>
     </exec>
   </target>
 
-  <target name="methcla" description="Compile and install methcla shared library.">
-    <exec executable="make" dir="src/cpp" failonerror="true">
-      <arg line="-f Makefile_${platform} ARCH=${arch} install" />
+  <target name="methcla" description="Compile and install Processing Sound JNI library.">
+    <exec executable="./shake" failonerror="true">
+      <arg line="--java-includes ${java_includes} --arch ${arch} install" />
       <env key="PATH" path="${env.PATH}" />
-      <env key="JAVA_INCLUDES" path="${java_includes}" />
     </exec>
   </target>
 
