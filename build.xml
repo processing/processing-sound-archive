@@ -3,6 +3,8 @@
   <property environment="env" />
   <property file="build.properties" />
 
+  <property name="arch" value="64" />
+
   <condition property="platform" value="OSX">
     <os family="mac" />
   </condition>
@@ -19,7 +21,7 @@
       </not>
     </and>
   </condition>
-  
+
   <target name="clean" description="Clean the build directories">
     <delete dir="bin" />
     <delete file="library/sound.jar" />
@@ -30,12 +32,9 @@
 
   <target name="methcla" description="Compile and install methcla shared library.">
     <exec executable="make" dir="src/cpp" failonerror="true">
-      <arg line="-f Makefile_${platform}" />
+      <arg line="-f Makefile_${platform} ARCH=${arch} install" />
       <env key="PATH" path="${env.PATH}" />
       <env key="JAVA_INCLUDES" path="${java_includes}" />
-    </exec>
-    <exec executable="make" dir="src/cpp" failonerror="true">
-      <arg line="-f Makefile_${platform} install" />
     </exec>
   </target>
 

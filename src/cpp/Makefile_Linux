@@ -1,14 +1,18 @@
 # needs gcc-4.7 or later
-CC := g++
-LIB_DIR = ../../library/linux64/
+CXX := g++
+ARCH := 64
+LIB_DIR = ../../library/linux$(ARCH)/
+LIBRARY = libMethClaInterface.so
 
-all:
-	$(CC) -fPIC -I$(JAVA_INCLUDES)/linux -I./include -I$(JAVA_INCLUDES) -std=c++11 -g -c processing_sound_MethClaInterface.cpp
-	$(CC) -shared -L$(LIB_DIR) -Wl,-rpath,'$$ORIGIN' -o libMethClaInterface.so *.o -lmethcla
+.PHONY: $(LIBRARY) clean install
+
+$(LIBRARY):
+	$(CXX) -m$(ARCH) -fPIC -I$(JAVA_INCLUDES) -I$(JAVA_INCLUDES)/linux -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CXX) -m$(ARCH) -shared -L$(LIB_DIR) -Wl,-rpath,'$$ORIGIN' -o $@ *.o -lmethcla
 
 clean:
 	rm *.o
 	rm *.jnilib
 
-install:
-	cp libMethClaInterface.so $(LIB_DIR)
+install: $(LIBRARY)
+	cp $(LIBRARY) $(LIB_DIR)
