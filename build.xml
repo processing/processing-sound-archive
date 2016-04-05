@@ -46,16 +46,16 @@
     <mkdir dir="bin" />
     <javac source="1.7"
 	   target="1.7"
-	   srcdir="src" destdir="bin" 
+	   srcdir="src" destdir="bin"
 	   encoding="UTF-8"
 	   includeAntRuntime="false"
 	   classpath="../processing/core/library/core.jar; library/sound.jar"
 	   nowarn="true">
-      <compilerclasspath path="../processing/java/mode/org.eclipse.jdt.core.jar; 
+      <compilerclasspath path="../processing/java/mode/org.eclipse.jdt.core.jar;
                                ../processing/java/mode/jdtCompilerAdapter.jar" />
     </javac>
   </target>
-  
+
   <target name="build" depends="compile" description="Build sound library">
     <jar basedir="bin" destfile="library/sound.jar" />
   </target>
