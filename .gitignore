@@ -3,4 +3,5 @@
 *.DS_Store
 *.class
 *./bin
-
+/.stack-work/
+/build/
