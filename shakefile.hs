@@ -74,8 +74,8 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
   let installedLib = "library" </> targetDirectory (targetOS target) (targetArchitecture options) </> takeFileName sharedLib
   installedLib %> \out -> do
     copyFile' sharedLib out
-    when (targetOS target == OSX) $
-      cmd "install_name_tool -change @loader_path/libmethcla.dylib @executable_path/libmethcla.dylib" out
+    -- when (targetOS target == OSX) $
+    --   cmd "install_name_tool -change @loader_path/libmethcla.dylib @executable_path/libmethcla.dylib" out
 
   phony "lib" $ need [sharedLib]
   phony "install" $ need [installedLib]
