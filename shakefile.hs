@@ -33,7 +33,7 @@ buildDir :: FilePath
 buildDir = "build"
 
 main :: IO ()
-main = shakeArgsWith shakeOptions flags $ \flags targets -> return $ Just $ do
+main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targets -> return $ Just $ do
   let options = foldl (.) id flags $ Options "" "64"
 
   -- Write build options to config file included in build system configuration
