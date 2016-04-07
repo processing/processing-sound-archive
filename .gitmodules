@@ -1,3 +1,6 @@
 [submodule "methcla_plugins"]
 	path = methcla_plugins
 	url = https://github.com/wirsing/methcla_plugins.git
+[submodule "methcla"]
+	path = methcla
+	url = https://github.com/samplecount/methcla.git
