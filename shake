@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-which stack &>/dev/null \
+which stack 1>/dev/null \
   || (echo "Please install stack from http://haskellstack.org" ; exit 1)
 
 stack build --no-system-ghc --install-ghc
