@@ -70,7 +70,10 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
   let options = foldl (.) id flags $ Options "" Arch64
 
   -- Build Methcla targets
-  "methcla/build//*" %> methcla . dropDirectory1
+  "methcla/build//*" %> \target -> do
+    -- Treat methcla targets as phony
+    alwaysRerun
+    methcla (dropDirectory1 target)
 
   -- Write build options to config file included in build system configuration
   "build/build.cfg" %> \out -> do
