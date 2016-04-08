@@ -50,7 +50,8 @@ sharedLibraryExtension Windows = "dll"
 sharedLibraryExtension os = error $ "Unsupported target OS " ++ show os
 
 methcla :: String -> Action ()
-methcla = cmd [Cwd "methcla", Shell] "./shake -c release"
+-- Use sh explicitly to make this work on MinGW
+methcla target = cmd [Cwd "methcla"] "sh" ["./shake", "-c", "release", target]
 
 methclaTargets :: OS -> TargetArchitecture -> [String]
 methclaTargets os arch =
