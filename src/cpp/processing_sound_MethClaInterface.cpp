@@ -186,7 +186,7 @@ JNIEXPORT void JNICALL Java_processing_sound_MethClaInterface_oscSet (JNIEnv *en
     request.openBundle(Methcla::immediately);
     request.set(m_nodeId[0], 0 , freq);
     request.set(m_nodeId[0], 1 , amp);
-    request.set(m_nodeId[0], 2 , add);    
+    //request.set(m_nodeId[0], 2 , add);    
     request.set(m_nodeId[1], 0, pos);
     request.closeBundle();
     request.send(); 
