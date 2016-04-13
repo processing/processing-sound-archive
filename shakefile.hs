@@ -12,7 +12,7 @@ import           Development.Shake.Language.C.Label
 import qualified Development.Shake.Language.C.PkgConfig as PkgConfig
 import qualified Development.Shake.Language.C.Target.OSX as OSX
 import qualified Development.Shake.Language.C.Config as Config
-import System.Console.GetOpt
+import           System.Console.GetOpt
 
 data TargetArchitecture = Arch32 | Arch64 deriving (Eq, Show)
 
