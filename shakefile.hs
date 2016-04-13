@@ -49,9 +49,12 @@ sharedLibraryExtension OSX = "jnilib"
 sharedLibraryExtension Windows = "dll"
 sharedLibraryExtension os = error $ "Unsupported target OS " ++ show os
 
-methcla :: String -> Action ()
+methcla :: OS -> String -> Action ()
 -- Use sh explicitly to make this work on MinGW
-methcla target = cmd [Cwd "methcla"] "sh" ["./shake", "-c", "release", target]
+methcla os target = cmd [Cwd "methcla"] "sh" ["./shake", "-c", "release"] (opts os) target
+  where
+    opts Linux = ["--toolchain=gcc"]
+    opts _ = []
 
 methclaTargets :: OS -> TargetArchitecture -> [String]
 methclaTargets os arch =
@@ -69,12 +72,6 @@ methclaTargets os arch =
 main :: IO ()
 main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targets -> return $ Just $ do
   let options = foldl (.) id flags $ Options "" Arch64
-
-  -- Build Methcla targets
-  "methcla/build//*" %> \target -> do
-    -- Treat methcla targets as phony
-    alwaysRerun
-    methcla (dropDirectory1 target)
 
   -- Write build options to config file included in build system configuration
   "build/build.cfg" %> \out -> do
@@ -98,6 +95,13 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
         f toolChain (buildPrefix </> "libMethClaInterface" <.> ext)
                     (BuildFlags.fromConfig getConfig)
                     (Config.getPaths getConfig ["Sources"])
+
+  -- Build Methcla targets
+  "methcla/build//*" %> \out -> do
+    -- Treat methcla targets as phony
+    alwaysRerun
+    methcla (targetOS target) (dropDirectory1 out)
+
   sharedLib <- build sharedLibrary (sharedLibraryExtension (targetOS target))
 
   let installed x = "library" </> targetDirectory (targetOS target) (targetArchitecture options) </> takeFileName x
@@ -111,6 +115,6 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
 
   phony "lib" $ need [sharedLib]
   phony "install" $ need $ [installed sharedLib] ++ map installed methclaLibs
-  phony "clean" $ methcla "clean" >> removeFilesAfter buildDir ["//*"]
+  phony "clean" $ methcla (targetOS target) "clean" >> removeFilesAfter buildDir ["//*"]
 
   want targets
