@@ -37,7 +37,7 @@
     </exec>
   </target>
 
-  <target name="compile" depends="methcla" description="Compile sources">
+  <target name="compile" depends="methcla" description="Compile Java Sources">
     <condition property="core-built">
       <available file="../processing/core/library/core.jar" />
     </condition>
@@ -56,7 +56,57 @@
     </javac>
   </target>
 
-  <target name="build" depends="compile" description="Build sound library">
+  <target name="build" depends="compile" description="Build Sound library and package as JAR">
     <jar basedir="bin" destfile="library/sound.jar" />
+  </target>
+
+ <target name="documentation" depends="build" description="Build JavaDoc">
+      <javadoc packagenames="processing.sound.*"
+        sourcepath="src"
+        defaultexcludes="yes"
+        destdir="docs/sound"
+        author="true"
+        version="true"
+        use="true"
+        windowtitle="Processing Sound">
+
+        <doctitle><![CDATA[<h1>Processing Sound Library</h1>]]></doctitle>
+        <bottom><![CDATA[<i>Copyright &#169; 2016 Processing Foundation. All Rights Reserved.</i>]]></bottom>
+        <tag name="todo" scope="all" description="To do:"/>
+      </javadoc>
+  </target>
+
+  <target name="package" depends="documentation" description="Package and create sound.zip + sound.txt for release">
+   
+    <mkdir dir="release/sound" />
+   
+    <copy todir="release/sound/library">
+      <fileset dir="library/"/>
+    </copy>
+    <copy todir="release/sound/examples">
+      <fileset dir="examples/"/>
+    </copy>
+    <copy todir="release/sound/src/cpp">
+      <fileset dir="src/cpp"/>
+    </copy>
+    <copy todir="release/sound/src/processing">
+      <fileset dir="src/processing"/>
+    </copy>
+    <copy todir="release/sound/reference">
+      <fileset dir="docs/sound"/>
+    </copy>
+    
+    <copy file="sound.txt" tofile="release/sound.txt"/>
+    <copy file="library.properties" tofile="release/sound/library.properties"/>
+    <copy file="README.md" tofile="release/sound/README.md"/>
+
+    <exec executable="find" dir="release" failonerror="true">
+      <arg line=". -name '*.DS_Store' -type f -delete" />
+    </exec>
+
+    <zip destfile="release/sound.zip"
+       basedir="release/sound"
+    />
+    <delete dir="release/sound"/>
   </target>
 </project>
