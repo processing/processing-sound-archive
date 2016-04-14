@@ -25,6 +25,19 @@ Point the build scripts to the Java installation
 
     export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
+### Building on Linux (32 bit)
+
+Install the following packages:
+
+    libasound2-dev:i386
+    libsndfile1:i386
+    libmpg123-dev:i386
+
+Since `libsndfile1-dev:i386` cannot be installed alongside `libsndfile1-dev`, you need to link the library manually:
+
+    $ cd /usr/lib/i386-linux-gnu
+    $ sudo ln -s libsndfile.so.1 libsndfile.so
+
 ### Running the 32 bit version of processing (Ubuntu 14.04)
 
 Execute the following commands:
