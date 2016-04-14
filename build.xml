@@ -5,34 +5,31 @@
 
   <property name="arch" value="64" />
 
-  <condition property="platform" value="OSX">
-    <os family="mac" />
+  <condition property="shake_script" value="${basedir}/shake">
+    <not>
+      <os family="windows" />
+    </not>
   </condition>
 
-  <condition property="platform" value="Win">
+  <condition property="shake_script" value="${basedir}/shake.bat">
     <os family="windows" />
-  </condition>
-
-  <condition property="platform" value="Linux">
-    <and>
-      <os family="unix" />
-      <not>
-        <os family="mac" />
-      </not>
-    </and>
   </condition>
 
   <target name="clean" description="Clean the build directories">
     <delete dir="bin" />
     <delete file="library/sound.jar" />
-    <exec executable="./shake">
-      <arg line="clean"/>
+    <exec executable="${shake_script}">
+      <arg value="clean"/>
     </exec>
   </target>
 
   <target name="methcla" description="Compile and install Processing Sound JNI library.">
-    <exec executable="./shake" failonerror="true">
-      <arg line="--java-includes ${java_includes} --arch ${arch} install" />
+    <exec executable="${shake_script}" failonerror="true">
+      <arg value="--java-includes" />
+      <arg value="${java_includes}" />
+      <arg value="--arch" />
+      <arg value="${arch}" />
+      <arg value="install" />
       <env key="PATH" path="${env.PATH}" />
     </exec>
   </target>

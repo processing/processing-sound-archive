@@ -69,6 +69,11 @@ methclaTargets os arch =
     _ -> error $ "Unsupported target OS " ++ show os
   where products = map ("methcla/build/release" </>)
 
+escapeSpaces :: String -> String
+escapeSpaces [] = []
+escapeSpaces (' ':xs) = '\\':' ':escapeSpaces xs
+escapeSpaces (x:xs) = x:escapeSpaces xs
+
 main :: IO ()
 main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targets -> return $ Just $ do
   let options = foldl (.) id flags $ Options "" Arch64
@@ -80,7 +85,7 @@ main = shakeArgsWith shakeOptions { shakeFiles = buildDir } flags $ \flags targe
         "targetArchitecture = " ++ case targetArchitecture options of
                                      Arch32 -> "32"
                                      Arch64 -> "64"
-      , "javaIncludeDirectory = " ++ javaIncludeDirectory options
+      , "javaIncludeDirectory = " ++ escapeSpaces (javaIncludeDirectory options)
       ]
 
   -- Get build configuration with generated config file dependency
