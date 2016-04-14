@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-# SHAKE_OPTIONS="-V"
+shake_options=${SHAKE_OPTIONS:--j}
 
 which stack 1>/dev/null \
   || (echo "Please install stack from http://haskellstack.org" ; exit 1)
 
 stack build --no-system-ghc --install-ghc
-stack exec -- shake-processing-sound $SHAKE_OPTIONS "$@"
+`stack path --local-install-root`/bin/shake-processing-sound $shake_options "$@"
