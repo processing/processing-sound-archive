@@ -61,3 +61,27 @@ Install the following packages:
 
     gcc-multilib
     g++-multilib
+
+## Building on Windows
+
+You need
+
+* [Haskell stack](http://haskellstack.org)
+* [Msys2](https://msys2.github.io/)
+
+And the following packages (install with `pacman -S`):
+
+    mingw-w64-x86_64-toolchain
+    mingw-w64-x86_64-libsndfile
+    mingw-w64-x86_64-mpg123
+    mingw-w64-i686-toolchain
+    mingw-w64-i686-libsndfile
+    mingw-w64-i686-mpg123
+
+Build the 64-bit version in a **MINGW64** shell with
+
+    $ ant
+
+and the 32-bit version in a **MINGW32** shell with
+
+    $ ant -Darch=32
