@@ -1,6 +1,6 @@
 ## Processing Methcla Interface
 
-This is a processing interface and a collection of plugins for [Methcla](http://methc.la), a leight-weight, efficient sound engine for mobile devices. For the moment this library is OSX + Linux only.
+This is a processing interface and a collection of plugins for [Methcla](http://methc.la), a leight-weight, efficient sound engine for mobile devices.
 
 
 ## Building the libMethClaInterface
