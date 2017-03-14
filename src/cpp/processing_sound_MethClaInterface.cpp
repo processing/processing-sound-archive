@@ -74,7 +74,9 @@ JNIEXPORT jint JNICALL Java_processing_sound_MethClaInterface_engineNew (JNIEnv 
     Methcla::EngineOptions options;
     options.audioDriver.bufferSize = bufferSize;
     options.audioDriver.numInputs = 2;
+#ifndef __arm__
     options.realtimeMemorySize = 1024 * 1024 * 1024;
+#endif
     options.maxNumNodes = 1024 * 40;
     options.maxNumAudioBuses = 512;
     options.addLibrary(methcla_plugins_sine)
