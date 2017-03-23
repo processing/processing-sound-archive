@@ -364,9 +364,8 @@ public class SoundFile implements SoundObject {
 		return m_nodeId;
 	}
 
-
-	public int isPlaying(){
-		return m_isPlaying;
+	public boolean isPlaying(){
+		return (m_isPlaying != 0);
 	}
 
 	public void dispose() {
