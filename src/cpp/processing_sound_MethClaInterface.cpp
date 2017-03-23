@@ -727,7 +727,10 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
 
     request.whenDone(after.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.activate(synth.id());
-    request.activate(after.id());
+
+    if (loop == false) {
+        request.activate(after.id());
+    }
     request.closeBundle();
     
     engine().addNotificationHandler(engine().freeNodeIdHandler(synth.id()));
