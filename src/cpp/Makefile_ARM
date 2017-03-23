@@ -1,0 +1,18 @@
+# needs gcc-4.7 or later
+CXX := g++
+JAVA_INCLUDES := 
+LIB_DIR = ../../library/linux-armv6hf/
+LIBRARY = libMethClaInterface.so
+
+.PHONY: $(LIBRARY) clean install
+
+$(LIBRARY):
+	$(CXX)  -fPIC -I$(shell dirname $(shell realpath $(shell which javac)))/../include -I$(shell dirname $(shell realpath $(shell which javac)))/../include/linux -I./include -std=c++11 -g -c processing_sound_MethClaInterface.cpp
+	$(CXX) -shared -L$(LIB_DIR) -Wl,-rpath,'$$ORIGIN' -o $@ *.o -lmethcla
+
+clean:
+	rm *.o
+	rm *.jnilib
+
+install: $(LIBRARY)
+	cp $(LIBRARY) $(LIB_DIR)
