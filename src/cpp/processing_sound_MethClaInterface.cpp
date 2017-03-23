@@ -706,6 +706,7 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
     Methcla::NodeTreeStatistics results;
 
     request.openBundle(Methcla::immediately);
+
     auto synth = request.synth(
             METHCLA_PLUGINS_SAMPLER_URI,
             engine().root(),
@@ -715,27 +716,28 @@ JNIEXPORT jintArray JNICALL Java_processing_sound_MethClaInterface_soundFilePlay
               Methcla::Value(int(cue)) }
     );
     
-    auto after = request.synth(
-            METHCLA_PLUGINS_DONE_AFTER_URI,
-            engine().root(),
-            { },
-            { Methcla::Value(dur) }
-    );
-
     request.mapOutput(synth.id(), 0, Methcla::AudioBusId(0), Methcla::kBusMappingExternal);
     request.mapOutput(synth.id(), 1, Methcla::AudioBusId(1), Methcla::kBusMappingExternal);
-
-    request.whenDone(after.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
     request.activate(synth.id());
+    engine().addNotificationHandler(engine().freeNodeIdHandler(synth));
 
-    if (loop == false) {
+    Methcla::NodeId after;
+
+    if (!loop) {
+        after = request.synth(
+                METHCLA_PLUGINS_DONE_AFTER_URI,
+                engine().root(),
+                { },
+                { Methcla::Value(dur) }
+        );
+
+        request.whenDone(after.id(), Methcla::kNodeDoneFreeSelf | Methcla::kNodeDoneFreePreceeding);
         request.activate(after.id());
+        engine().addNotificationHandler(engine().freeNodeIdHandler(after));
     }
+
     request.closeBundle();
-    
-    engine().addNotificationHandler(engine().freeNodeIdHandler(synth.id()));
-    engine().addNotificationHandler(engine().freeNodeIdHandler(after.id()));
-  
+
     request.send();
 
     m_nodeId[0]=synth.id();
