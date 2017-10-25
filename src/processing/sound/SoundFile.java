@@ -60,7 +60,7 @@ public class SoundFile implements SoundObject {
 			m_info = m_engine.soundFileInfo(m_filePath);
 		}
 		else {
-			System.out.println("Error: Soundfile doesn't exist. Pleae check path");
+			System.out.println("Error: Soundfile doesn't exist. Please check path");
 		}
 		//m_panBusId = m_engine.soundFileConstructMono();
 		m_panBusId = m_engine.busConstructMono();
