@@ -1,3 +1,6 @@
+## Note: 15 May 2018. This Library is no longer in active development. This repository is an archive. We're working on a new Sound Library that will have the same API, but will be built on top of JSyn. 
+
+
 ## Processing Methcla Interface
 
 This is a processing interface and a collection of plugins for [Methcla](http://methc.la), a leight-weight, efficient sound engine for mobile devices.
