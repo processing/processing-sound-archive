@@ -24,13 +24,13 @@ package processing.sound;
 import processing.core.PApplet;
 
 /**
-* This is a simple Triangle Wave Oscillator 
+* This is a simple Triangle Wave Oscillator
 * @webref sound
 * @param parent PApplet: typically use "this"
 **/
 
 public class TriOsc implements Oscillator{
-	
+
 	PApplet parent;
 	private Engine m_engine;
 	private int[] m_nodeId = {-1,-1};
@@ -38,31 +38,31 @@ public class TriOsc implements Oscillator{
 	private float m_amp = 0.5f;
 	private float m_add = 0;
 	private float m_pos = 0;
-	private int m_panBusId;	
+	private int m_panBusId;
 
 	public TriOsc(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
 		m_engine.setPreferences(theParent, 512, 44100);
-    	m_engine.start();	
+    	m_engine.start();
 		m_panBusId = m_engine.busConstructMono();
 	}
-	
+
 	public void play(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
-	
+
 	public void play(float freq, float amp, float add){
 		m_freq=freq; m_amp=amp; m_add=add;
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
-	
+
 	public void play(float freq, float amp){
 		m_freq=freq; m_amp=amp;
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
-	
+
 	/**
 	* Starts the oscillator
 	* @webref sound
@@ -71,13 +71,13 @@ public class TriOsc implements Oscillator{
 	public void play(){
 		m_nodeId = m_engine.triPlay(m_freq, m_amp, m_add, m_pos, m_panBusId);
 	}
-	
+
 	private void set(){
-		if(m_nodeId[0] != -1 ) { 
+		if(m_nodeId[0] != -1 ) {
 			m_engine.oscSet(m_freq, m_amp, m_add, m_pos, m_nodeId);
 		}
 	}
-	
+
 	/**
 	* Set multiple parameters at once
 	* @webref sound
@@ -91,9 +91,9 @@ public class TriOsc implements Oscillator{
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
 		this.set();
 	}
-	
+
 	/**
-	* Set the freuquency of the oscillator in Hz.
+	* Set the frequency of the oscillator in Hz.
 	* @webref sound
 	* @param freq A floating point value of the oscillator in Hz.
 	**/
@@ -113,34 +113,34 @@ public class TriOsc implements Oscillator{
 		m_amp=amp;
 		this.set();
 	}
-	
+
 	/**
 	* Offset the output of the oscillator by given value
 	* @webref sound
 	* @param add A value for modulating other audio signals.
-	**/	
+	**/
 
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
-	
+
 	/**
 	* Move the sound in a stereo panorama
 	* @webref sound
 	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
-	**/	
+	**/
 
 	public void pan(float pos){
 		m_pos=pos;
 		this.set();
 	}
-	
+
 	/**
 	* Stop the oscillator.
 	* @webref sound
 	**/
-	
+
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {
 			m_engine.synthStop(m_nodeId);
@@ -149,7 +149,7 @@ public class TriOsc implements Oscillator{
 			}
 		}
 	}
-	
+
 	public int[] returnId(){
 		return m_nodeId;
 	}

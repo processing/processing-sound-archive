@@ -24,13 +24,13 @@ package processing.sound;
 import processing.core.PApplet;
 
 /**
-* This is a simple Square Wave Oscillator 
+* This is a simple Square Wave Oscillator
 * @webref sound
 * @param parent PApplet: typically use "this"
 **/
 
 public class SqrOsc implements SoundObject {
-		
+
 	PApplet parent;
 	private Engine m_engine;
 	private int[] m_nodeId = {-1,-1};
@@ -39,7 +39,7 @@ public class SqrOsc implements SoundObject {
 	private float m_add = 0;
 	private float m_pos = 0;
 	private int m_panBusId;
-	
+
 	public SqrOsc(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
@@ -47,7 +47,7 @@ public class SqrOsc implements SoundObject {
     	m_engine.start();
 		m_panBusId = m_engine.busConstructMono();
 	}
-	
+
 	/**
 	* Starts the oscillator
 	* @webref sound
@@ -56,32 +56,32 @@ public class SqrOsc implements SoundObject {
 	public void play(){
 		//m_nodeId = m_engine.pulsePlay(m_freq, 0.5f, m_amp*2, m_add-1, m_pos);
 		m_nodeId = m_engine.sqrPlay(m_freq, m_amp, m_add-1, m_pos, m_panBusId);
-	};	
-	
+	};
+
 	public void play(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
 		this.play();
 	};
-	
+
 	public void play(float freq, float amp, float add){
 		m_freq=freq; m_amp=amp; m_add=add;
 		this.play();
 	};
-	
+
 	public void play(float freq, float amp){
 		m_freq=freq; m_amp=amp;
 		this.play();
 	};
-	
+
 	public void play(float freq){
-		m_freq=freq; 
+		m_freq=freq;
 		this.play();
 	};
-	
+
 	private void set(){
 		if(m_nodeId[0] != -1 ) {
 			m_engine.sqrSet(m_freq, m_amp, m_add-1, m_pos, m_nodeId);
-		}	
+		}
 	}
 
 	/**
@@ -92,23 +92,23 @@ public class SqrOsc implements SoundObject {
 	* @param add A value for modulating other audio signals.
 	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
 	**/
-	
+
 	public void set(float freq, float amp, float add, float pos){
 		m_freq=freq; m_amp=amp; m_add=add; m_pos=pos;
 		this.set();
 	};
-	
+
 	/**
-	* Set the freuquency of the oscillator in Hz.
+	* Set the frequency of the oscillator in Hz.
 	* @webref sound
 	* @param freq A floating point value of the oscillator in Hz.
 	**/
 
 	public void freq(float freq){
 		m_freq=freq;
-		this.set();		
+		this.set();
 	}
-	
+
 	/**
 	* Set the amplitude/volume of the oscillator
 	* @webref sound
@@ -119,34 +119,34 @@ public class SqrOsc implements SoundObject {
 		m_amp=amp;
 		this.set();
 	}
-	
+
 	/**
 	* Offset the output of the oscillator by given value
 	* @webref sound
 	* @param add A value for modulating other audio signals.
-	**/	
+	**/
 
 	public void add(float add){
 		m_add=add;
 		this.set();
 	}
-	
+
 	/**
 	* Move the sound in a stereo panorama
 	* @webref sound
 	* @param pos The panoramic position of the oscillator as a float from -1.0 to 1.0.
-	**/	
-	
+	**/
+
 	public void pan(float pos){
 		m_pos=pos;
 		this.set();
 	}
-	
+
 	/**
 	* Stop the oscillator.
 	* @webref sound
 	**/
-	
+
 	public void stop(){
 		if(m_nodeId[0] != -1 ) {
 			m_engine.synthStop(m_nodeId);
@@ -155,14 +155,12 @@ public class SqrOsc implements SoundObject {
 			}
 		}
 	}
-	
+
 	public int[] returnId(){
 		return m_nodeId;
 	}
-	
+
 	public void dispose(){
 		m_engine.synthStop(m_nodeId);
 	}
 }
-
-

@@ -31,11 +31,11 @@ import processing.core.PApplet;
 */
 
 public class Amplitude {
-	
+
 	PApplet parent;
 	private Engine m_engine;
 	private long ptr;
-	
+
 	public Amplitude(PApplet theParent) {
 		this.parent = theParent;
 		parent.registerMethod("dispose", this);
@@ -51,25 +51,25 @@ public class Amplitude {
 	public void input(SoundObject input){
 		ptr = m_engine.amplitude(input.returnId());
 	}
-	
+
 	/**
-	* Queries a value from the analyzer and returns a float between 0. and 1. 
-    * @webref sound	
+	* Queries a value from the analyzer and returns a float between 0. and 1.
+    * @webref sound
 	* @return amp An amplitude value between 0-1.
 	**/
 
 	public float analyze(){
 		return m_engine.poll_amplitude(ptr);
 	}
-	
+
 	// public void stop(){
-	// 	m_engine.synthStop(m_nodeId);	
+	// 	m_engine.synthStop(m_nodeId);
 	// }
-	
+
 	// public int returnId(){
 	// 	return m_nodeId;
 	// }
-	
+
 	public void dispose() {
 		m_engine.destroy_amplitude(ptr);
 		//m_engine.synthStop(m_nodeId);
